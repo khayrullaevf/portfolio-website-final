@@ -1,0 +1,243 @@
+{
+  "meta": {
+    "title": "Fazliddin Khayrullaev | Software Engineer",
+    "description": "Frontend Developer with 2+ years of experience specializing in React, Next.js, and Angular"
+  },
+  "personal": {
+    "name": "Fazliddin Khayrullaev",
+    "title": "Software Engineer",
+    "location": "Tashkent, UZB",
+    "avatar": "/me/image.png",
+    "email": "fazliddinkhayrullaev4@gmail.com",
+    "phone": "+99 948-37-79",
+    "workingHours": "Monday - Friday, 9am - 6pm UZT",
+    "availableForWork": true,
+    "badges": ["Frontend", "React", "Next.js", "Team Lead"],
+    "social": [
+      {
+        "platform": "GitHub",
+        "url": "#",
+        "icon": "Github"
+      },
+      {
+        "platform": "LinkedIn",
+        "url": "#",
+        "icon": "Linkedin"
+      },
+      {
+        "platform": "Telegram",
+        "url": "https://t.me/fazliddinkhayrullaev",
+        "icon": "MessageCircle"
+      }
+    ]
+  },
+  "about": {
+    "bio": "Frontend Developer with around 2 years of experience specializing in React, Next.js, and Angular, with a strong focus on scalable UI architecture and high-performance systems. Proven leadership as a team lead managing a 6-person development team delivering enterprise solutions across healthcare, education, and logistics. Passionate about clean code, performance optimization, and cross-functional collaboration.",
+    "focus": [
+      "Building scalable frontend systems with React, Next.js, and Angular",
+      "Leading cross-functional development teams and code review processes",
+      "Integrating payment systems and optimizing API performance"
+    ],
+    "languages": [
+      {
+        "name": "Uzbek",
+        "proficiency": "Native",
+        "level": 100,
+        "flag": "🇺🇿"
+      },
+      {
+        "name": "English",
+        "proficiency": "C1 (IELTS 7)",
+        "level": 85,
+        "flag": "🇺🇸"
+      },
+      {
+        "name": "Russian",
+        "proficiency": "A2",
+        "level": 40,
+        "flag": "🇷🇺"
+      }
+    ],
+    "interests": [
+      "Clean Code",
+      "Performance Optimization",
+      "Team Leadership",
+      "System Architecture",
+      "Real-time Applications"
+    ]
+  },
+  "navigation": [
+    {
+      "label": "Home",
+      "href": "/"
+    },
+    {
+      "label": "Experience",
+      "href": "#experience"
+    },
+    {
+      "label": "Credentials",
+      "href": "#credentials"
+    },
+    {
+      "label": "Skills",
+      "href": "#skills"
+    },
+    {
+      "label": "Projects",
+      "href": "#projects"
+    },
+    {
+      "label": "Contact",
+      "href": "#contact"
+    }
+  ],
+  "experience": [
+    {
+      "title": "Team Lead & Frontend Developer",
+      "company": "Freelance Projects",
+      "period": "May 2025 – Present",
+      "description": "Founded and lead a 6-person cross-functional team (3 Java backend, 1 frontend developer) delivering full-stack web solutions. Architected scalable frontend systems using Next.js, React, TypeScript and TailwindCSS.",
+      "achievements": [
+        "Led cross-functional team of 6 developers",
+        "Architected scalable frontend systems",
+        "Directed project planning and code review processes"
+      ],
+      "technologies": ["Next.js", "React", "TypeScript", "TailwindCSS", "Team Leadership"]
+    },
+    {
+      "title": "Frontend Developer",
+      "company": "TenzorSoft",
+      "period": "Feb 2025 – Aug 2025",
+      "description": "Engineered complex platforms (logistics, warehouse management, university portals) using React/Next.js/Angular. Integrated payment systems and SMS services.",
+      "achievements": [
+        "Developed logistics and warehouse management platforms",
+        "Integrated Payme, Click payment systems",
+        "Optimized API performance achieving 30% faster response times"
+      ],
+      "technologies": ["React", "Next.js", "Angular", "Payme", "Click", "Eskiz"]
+    },
+    {
+      "title": "Frontend Developer",
+      "company": "UzbekGidroEnergo",
+      "period": "Feb 2024 – Jan 2025",
+      "description": "Developed real-time water aggregation and reservoir monitoring dashboards with Angular, Tailwind CSS, and Ant Design. Collaborated with backend team to digitize hydro infrastructure operations.",
+      "achievements": [
+        "Built real-time monitoring dashboards for water management",
+        "Implemented data visualization for reservoir analytics",
+        "Digitized hydro infrastructure operations"
+      ],
+      "technologies": ["Angular", "Tailwind CSS", "Ant Design", "Data Visualization", "Real-time Systems"]
+    }
+  ],
+  "credentials": {
+    "certifications": [
+      {
+        "name": "Frontend Developer Certification",
+        "issuer": "Na'jot Ta'lim",
+        "date": "2024",
+        "logo": "/placeholder.svg?height=40&width=40"
+      },
+      {
+        "name": "IELTS band 7.0",
+        "issuer": "IDP IELTS",
+        "date": "2021",
+        "logo": "/placeholder.svg?height=40&width=40"
+      }
+     
+    ],
+    "education": [
+      {
+        "degree": "Bachelor's in Software Engineering",
+        "institution": "TUIT (Online Education)",
+        "year": "2024–2028",
+        "logo": "/generic-art-school-logo.png"
+      },
+      {
+        "degree": "Frontend Development",
+        "institution": "Najot Ta'lim",
+        "year": "2023–2024",
+        "logo": "/generic-military-logo.png"
+      }
+    ],
+    "skills": [
+      "React",
+      "Next.js",
+      "Angular",
+      "TypeScript",
+      "JavaScript",
+      "Node.js",
+      "Team Leadership",
+      "System Architecture"
+    ]
+  },
+  "technicalSkills": {
+    "design": ["Material UI", "Tailwind CSS", "Ant Design", "ShadCN", "Responsive Design", "UI/UX"],
+    "development": ["JavaScript", "TypeScript", "React", "Next.js", "Angular", "Node.js", "Express.js", "WebSocket"],
+    "uxMethods": [
+      "RESTful APIs",
+      "Microservices",
+      "Event-Driven Architecture",
+      "Performance Optimization",
+      "Code Review",
+      "System Integration"
+    ],
+    "softSkills": [
+      "Team Leadership",
+      "Project Management",
+      "Cross-functional Collaboration",
+      "Mentoring",
+      "Problem Solving"
+    ]
+  },
+  "projects": [
+    {
+      "title": "omborim.uz - Chemical Warehouse Management",
+      "description": "Built responsive UIs for 300+ chemical warehouses to manage inventory, sales, and procurement. Integrated Faktura.uz & UzEx.uz APIs with optimized data tables.",
+      "technologies": ["React", "Next.js", "Tailwind CSS", "Ant Design", "ShadCN"],
+      "image": "/placeholder.svg?height=200&width=350",
+      "github": "#",
+      "demo": "https://omborim.uz"
+    },
+    {
+      "title": "mycoal.uz - Coal Supply Chain Management",
+      "description": "Developed dynamic dashboards for coal distribution and real-time delivery tracking with Angular, Material UI, and WebSocket.",
+      "technologies": ["Angular", "Material UI", "WebSocket", "Maps API"],
+      "image": "/placeholder.svg?height=200&width=350",
+      "github": "#",
+      "demo": "https://mycoal.uz"
+    },
+    {
+      "title": "ASDK UGE - Water Reservoir Monitoring",
+      "description": "Platform to monitor water reservoir analytics and digitized operations in Uzbekistan's hydro sector with real-time status indicators.",
+      "technologies": ["Angular", "Tailwind CSS", "Angular Material", "PrimeNG"],
+      "image": "/placeholder.svg?height=200&width=350",
+      "github": "#",
+      "demo": "https://asdk-uge.web.app"
+    },
+    {
+      "title": "Intreaty.uz - Legal Document Comparison",
+      "description": "Multi-language document viewer and diff-engine interface allowing users to compare legal texts in Uzbek, Russian, and English.",
+      "technologies": ["Next.js", "Ant Design", "Document Processing"],
+      "image": "/placeholder.svg?height=200&width=350",
+      "github": "#",
+      "demo": "https://intreaty.uz"
+    },
+    {
+      "title": "Pharmacy Management System",
+      "description": "Complete pharmacy system with inventory tracking, sales management, and prescription handling with real-time stock updates.",
+      "technologies": ["Next.js", "React", "TypeScript", "TailwindCSS", "Node.js", "Spring Boot"],
+      "image": "/placeholder.svg?height=200&width=350",
+      "github": "#",
+      "demo": "#"
+    },
+    {
+      "title": "CRM for Education Center",
+      "description": "Custom CRM to manage student admissions, payments, schedules, and teacher performance with automated notifications.",
+      "technologies": ["Next.js", "React", "Redux Toolkit", "MongoDB", "Spring Boot"],
+      "image": "/placeholder.svg?height=200&width=350",
+      "github": "#",
+      "demo": "#"
+    }
+  ]
+}
