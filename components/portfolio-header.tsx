@@ -53,7 +53,7 @@ export function PortfolioHeader() {
     <header
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-4",
-        scrolled ? "bg-zinc-900/90 backdrop-blur-md shadow-md py-2" : "bg-transparent",
+        scrolled ? "bg-zinc-900/90  shadow-md py-2" : "bg-transparent",
       )}
     >
       <div className="container mx-auto px-4 flex items-center justify-between">

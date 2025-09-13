@@ -51,7 +51,7 @@ export function AnimationSettingsPanel() {
       </Button>
 
       {isOpen && (
-        <Card className="absolute bottom-16 left-0 w-80 bg-zinc-900/95 backdrop-blur-md border-zinc-700 shadow-xl rounded-lg overflow-hidden">
+        <Card className="absolute bottom-16 left-0 w-80 bg-zinc-900/95 border-zinc-700 shadow-xl rounded-lg overflow-hidden">
           <div className="p-4">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-sm font-medium flex items-center">

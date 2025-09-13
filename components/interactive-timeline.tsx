@@ -52,7 +52,7 @@ export function InteractiveTimeline() {
   const [activeItem, setActiveItem] = useState<string>(timelineData[0].id)
 
   return (
-    <div className="py-16">
+    <div className="py-16 bg-zinc-900 min-h-screen">
       <div className="container mx-auto px-4">
         <h2 className="text-3xl font-bold text-center mb-12 text-white bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text">
           Professional Journey
@@ -60,22 +60,22 @@ export function InteractiveTimeline() {
 
         <div className="max-w-4xl mx-auto">
           <div className="relative">
-            {/* Timeline Line */}
-            <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-cyan-500 to-blue-500" />
+            {/* Timeline Line - faqat katta ekranlarda ko'rinadi */}
+            <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-cyan-500 to-blue-500 hidden md:block" />
 
             {/* Timeline Items */}
             <div className="space-y-8">
               {timelineData.map((item, index) => (
                 <div
                   key={item.id}
-                  className={`relative pl-20 cursor-pointer transition-all duration-300 ${
+                  className={`relative md:pl-20 cursor-pointer transition-all duration-300 ${
                     activeItem === item.id ? "scale-105" : "hover:scale-102"
                   }`}
                   onClick={() => setActiveItem(item.id)}
                 >
-                  {/* Timeline Dot */}
+                  {/* Timeline Dot - faqat katta ekranlarda ko'rinadi */}
                   <div
-                    className={`absolute left-6 w-4 h-4 rounded-full border-2 transition-all duration-300 ${
+                    className={`absolute left-6 w-4 h-4 rounded-full border-2 transition-all duration-300 hidden md:block ${
                       activeItem === item.id
                         ? "bg-cyan-500 border-cyan-400 shadow-lg shadow-cyan-500/50"
                         : item.isActive
