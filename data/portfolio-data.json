@@ -136,13 +136,15 @@
         "name": "Frontend Developer Certification",
         "issuer": "Na'jot Ta'lim",
         "date": "2024",
-        "logo": "/placeholder.svg?height=40&width=40"
+        "logo": "/placeholder.svg?height=40&width=40",
+        "pdfPath": "/certificates/najot.pdf"
       },
       {
         "name": "IELTS band 7.0",
         "issuer": "IDP IELTS",
         "date": "2021",
-        "logo": "/placeholder.svg?height=40&width=40"
+        "logo": "/placeholder.svg?height=40&width=40",
+          "pdfPath": "/certificates/ielts.pdf"
       }
      
     ],
