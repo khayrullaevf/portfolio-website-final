@@ -74,14 +74,27 @@ export function ContactForm() {
       throw error;
     }
   }
-  function onSubmit(data: FormValues) {
-    // Simulate form submission with a delay
-    setTimeout(async () => {
-      console.log("Form submitted:", data);
-      await sendContactForm(data);
 
+  async function onSubmit(data: FormValues) {
+    try {
+      await sendContactForm(data);
       setIsSubmitted(true);
-    }, 1000);
+      
+      // Success toast
+      toast({
+        title: "Xabar yuborildi!",
+        description: "Tez orada siz bilan bog'lanamiz.",
+      });
+    } catch (error) {
+      // Error toast
+      toast({
+        title: "Xatolik yuz berdi!",
+        description: error instanceof Error ? error.message : "Xabar yuborishda xatolik yuz berdi. Qayta urinib ko'ring.",
+        variant: "destructive",
+      });
+      
+      console.error("Form submission error:", error);
+    }
   }
 
   if (isSubmitted) {
@@ -181,7 +194,7 @@ export function ContactForm() {
 
         <Button
           type="submit"
-          className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white"
+          className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white disabled:opacity-50 disabled:cursor-not-allowed"
           disabled={form.formState.isSubmitting}
         >
           {form.formState.isSubmitting ? (
