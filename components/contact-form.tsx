@@ -16,6 +16,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { toast } from "./ui/use-toast";
 
 // Define the form schema with validation rules
 const formSchema = z.object({
@@ -46,20 +47,38 @@ export function ContactForm() {
   });
 
   // Handle form submission
+  async function sendContactForm(formData: FormValues) {
+    try {
+      const response = await fetch(
+        "https://contact-telegram-bot-w5ty.onrender.com/contact",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
+
+      const result = await response.json();
+
+      if (result.success) {
+        console.log("Xabar yuborildi:", result.message);
+        return result;
+      } else {
+        console.error("Xatolik:", result.message);
+        throw new Error(result.message);
+      }
+    } catch (error) {
+      console.error("Xatolik yuz berdi:", error);
+      throw error;
+    }
+  }
   function onSubmit(data: FormValues) {
     // Simulate form submission with a delay
     setTimeout(async () => {
       console.log("Form submitted:", data);
-      await fetch("https://contact-bot-backend.onrender.com/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: data.name,
-          subject: data.subject,
-          email: data.email,
-          message: data.message,
-        }),
-      });
+      await sendContactForm(data);
 
       setIsSubmitted(true);
     }, 1000);
