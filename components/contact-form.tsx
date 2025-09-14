@@ -1,27 +1,38 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import * as z from "zod"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { SendIcon, Loader2 } from "lucide-react"
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { SendIcon, Loader2 } from "lucide-react";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 
 // Define the form schema with validation rules
 const formSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters" }),
   email: z.string().email({ message: "Please enter a valid email address" }),
-  subject: z.string().min(5, { message: "Subject must be at least 5 characters" }),
-  message: z.string().min(10, { message: "Message must be at least 10 characters" }),
-})
+  subject: z
+    .string()
+    .min(5, { message: "Subject must be at least 5 characters" }),
+  message: z
+    .string()
+    .min(10, { message: "Message must be at least 10 characters" }),
+});
 
-type FormValues = z.infer<typeof formSchema>
+type FormValues = z.infer<typeof formSchema>;
 
 export function ContactForm() {
-  const [isSubmitted, setIsSubmitted] = useState(false)
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   // Initialize the form with react-hook-form and zod validation
   const form = useForm<FormValues>({
@@ -32,15 +43,26 @@ export function ContactForm() {
       subject: "",
       message: "",
     },
-  })
+  });
 
   // Handle form submission
   function onSubmit(data: FormValues) {
     // Simulate form submission with a delay
-    setTimeout(() => {
-      console.log("Form submitted:", data)
-      setIsSubmitted(true)
-    }, 1000)
+    setTimeout(async () => {
+      console.log("Form submitted:", data);
+      await fetch("https://contact-bot-backend.onrender.com/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: data.name,
+          subject: data.subject,
+          email: data.email,
+          message: data.message,
+        }),
+      });
+
+      setIsSubmitted(true);
+    }, 1000);
   }
 
   if (isSubmitted) {
@@ -57,7 +79,7 @@ export function ContactForm() {
           Send Another Message
         </Button>
       </div>
-    )
+    );
   }
 
   return (
@@ -157,5 +179,5 @@ export function ContactForm() {
         </Button>
       </form>
     </Form>
-  )
+  );
 }
