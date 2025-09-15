@@ -146,10 +146,10 @@ Ushbu loyiha MIT litsenziyasi ostida tarqatiladi. Batafsil ma'lumot uchun `LICEN
 ## 👨‍💻 Muallif
 
 **[Sizning Ismingiz]**
-- GitHub: [@username](https://github.com/khayrullaevf)
-- LinkedIn: [profile-link](https://www.linkedin.com/in/fazliddin-khayrullaev-3a3b34228)
+- GitHub: [@khayrullaevf](https://github.com/khayrullaevf)
+- LinkedIn: [https://www.linkedin.com/in/fazliddin-khayrullaev-3a3b34228](https://www.linkedin.com/in/fazliddin-khayrullaev-3a3b34228)
 - Email: fazliddinkhayrullaev4@gmail.com
-- Portfolio: [your-portfolio-url.com](https://khayrullaevf)
+- Portfolio: [https://khayrullaevf.uz](https://khayrullaevf.uz)
 
 ## 🙏 Minnatdorchilik
 
