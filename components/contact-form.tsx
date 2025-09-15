@@ -50,7 +50,7 @@ export function ContactForm() {
   async function sendContactForm(formData: FormValues) {
     try {
       const response = await fetch(
-        "https://contact-telegram-bot-w5ty.onrender.com/contact",
+        "https://contact-bot-backend.onrender.com/contact",
         {
           method: "POST",
           headers: {
