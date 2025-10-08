@@ -17,17 +17,28 @@ interface TimelineItem {
 const timelineData: TimelineItem[] = [
   {
     id: "1",
+    title: "Frontend (Next.js) Developer",
+    company: "SoffHub",
+    location: "Tashkent, Uzbekistan",
+    period: "Oct 2025 – Present",
+    description:
+      "Developing and maintaining multiple digital platforms: ilmiyish.uz (digital marketplace for academic materials and ready-made works), soffcrm.uz (modern CRM platform for educational centers), soffhub.uz (company website and services), and soff.uz (digital products and tech solutions hub). Building scalable frontend architectures with Next.js, implementing responsive UI/UX designs, and optimizing platform performance.",
+    technologies: ["Next.js", "React", "TypeScript", "TailwindCSS", "Digital Platforms"],
+    isActive: true,
+  },
+  {
+    id: "2",
     title: "Team Lead & Frontend Developer",
     company: "Freelance Projects",
     location: "Tashkent, Uzbekistan",
     period: "May 2025 – Present",
     description:
-      "Founded and lead a 6-person cross-functional team (3 Java backend, 1 frontend developer) delivering full-stack web solutions. Architected scalable frontend systems using Next.js, React, TypeScript and TailwindCSS. Led cross-functional team of 6 developers, architected scalable frontend systems, and directed project planning and code review processes.",
+      "Founded and led a 6-person cross-functional team (3 Java backend, 1 frontend developer) delivering full-stack web solutions. Architected scalable frontend systems using Next.js, React, TypeScript and TailwindCSS. Directed project planning and code review processes, ensuring high-quality deliverables across multiple client projects.",
     technologies: ["Next.js", "React", "TypeScript", "TailwindCSS", "Team Leadership"],
-    isActive: true,
+    isActive: false,
   },
   {
-    id: "2",
+    id: "3",
     title: "Frontend Developer",
     company: "TenzorSoft",
     location: "Tashkent, Uzbekistan",
@@ -35,9 +46,10 @@ const timelineData: TimelineItem[] = [
     description:
       "Engineered complex platforms (logistics, warehouse management, university portals) using React/Next.js/Angular. Integrated payment systems and SMS services. Developed logistics and warehouse management platforms, integrated Payme, Click payment systems, and optimized API performance achieving 30% faster response times.",
     technologies: ["React", "Next.js", "Angular", "Payme", "Click", "Eskiz"],
+    isActive: false,
   },
   {
-    id: "3",
+    id: "4",
     title: "Frontend Developer",
     company: "UzbekGidroEnergo",
     location: "Tashkent, Uzbekistan",
@@ -45,8 +57,9 @@ const timelineData: TimelineItem[] = [
     description:
       "Developed real-time water aggregation and reservoir monitoring dashboards with Angular, Tailwind CSS, and Ant Design. Collaborated with backend team to digitize hydro infrastructure operations. Built real-time monitoring dashboards for water management, implemented data visualization for reservoir analytics, and digitized hydro infrastructure operations.",
     technologies: ["Angular", "Tailwind CSS", "Ant Design", "Data Visualization", "Real-time Systems"],
+    isActive: false,
   },
-]
+];
 
 export function InteractiveTimeline() {
   const [activeItem, setActiveItem] = useState<string>(timelineData[0].id)
