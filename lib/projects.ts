@@ -138,6 +138,45 @@ const projects: Project[] = [
   },
   {
     id: 4,
+    slug: "soffia-ai-presentation",
+    title: "Soffia AI - AI-Powered Presentation Creation Platform",
+    category: "Web Application",
+    shortDescription: "AI-powered platform for creating professional presentations and academic reports (referatlar) with automated content generation, flexible pricing plans, and multi-language support.",
+    description: [
+      "Soffia AI is an innovative AI-powered platform designed to revolutionize how users create professional presentations and academic reports. The platform enables users to generate complete presentations from a simple topic input, with AI handling slide creation, content structuring, and formatting.",
+      "The platform features a comprehensive pricing system with three flexible plans: 10-15 pages (5,000 so'm), 15-20 pages (7,000 so'm - most popular), and 20-25 pages (10,000 so'm). Advanced features include multi-language support (primarily Uzbek), customizable slide counts (10-25 slides), author attribution, optional AI-generated images, and template selection.",
+      "Built with modern web technologies, Soffia AI provides an intuitive interface with sidebar navigation, real-time content generation, and seamless user experience. The platform offers multiple services including presentations (Taqdimot) and reports (Referatlar), with additional features like scientific works, thesis, articles, and video creation coming soon.",
+    ],
+    features: [
+      "AI-powered automatic presentation and report generation from topic input",
+      "Flexible pricing plans: 10-15 pages (5,000 so'm), 15-20 pages (7,000 so'm), 20-25 pages (10,000 so'm)",
+      "Multi-language support with Uzbek as primary language",
+      "Customizable slide count with slider control (10-25 slides)",
+      "Author attribution and metadata management",
+      "Optional AI-generated images toggle for presentations",
+      "Template selection (Shablonlar) with quick options (Qisqa, O'rta, Uzun)",
+      "Sidebar navigation with service categories (Taqdimot, Referatlar)",
+      "Real-time content generation and preview",
+      "User authentication and account management",
+      "Responsive design for all devices",
+      "Voice input support (microphone icon)",
+    ],
+    technologies: ["Next.js", "React", "TypeScript", "Tailwind CSS", "AI/ML Integration", "Node.js", "MongoDB"],
+    coverImage: "/soffia/home.png",
+    thumbnailImage: "/soffia/home.png",
+    gallery: [
+      { url: "/soffia/home.png", caption: "Soffia AI Homepage - Presentation Creation" },
+      { url: "/soffia/pricing.png", caption: "Pricing Plans Page" },
+      { url: "/soffia/create.png", caption: "Dashboard with Sidebar Navigation" },
+      { url: "/soffia/referatlar.png", caption: "Referatlar (Reports) Creation Interface" },
+    ],
+    timeline: "Ongoing",
+    role: "Frontend Next JS Developer",
+    liveUrl: "https://soffia.uz",
+    githubUrl: "#",
+  },
+  {
+    id: 5,
     slug: "omborim-chemical-warehouse",
     title: "omborim.uz - Chemical Warehouse Management System",
     category: "Web Application",
@@ -172,7 +211,7 @@ const projects: Project[] = [
     githubUrl: "#",
   },
   {
-    id: 5,
+    id: 6,
     slug: "mycoal-supply-chain",
     title: "mycoal.uz - Coal Supply Chain Management",
     category: "Web Application",
@@ -207,7 +246,7 @@ const projects: Project[] = [
     githubUrl: "#",
   },
   {
-    id: 6,
+    id: 7,
     slug: "asdk-water-monitoring",
     title: "ASDK UGE - Water Reservoir Monitoring System",
     category: "Web Application",
@@ -243,7 +282,7 @@ const projects: Project[] = [
     githubUrl: "#",
   },
   {
-    id: 7,
+    id: 8,  
     slug: "intreaty-legal-platform",
     title: "Intreaty.uz - Legal Document Comparison Tool",
     category: "Web Application",
@@ -279,7 +318,7 @@ const projects: Project[] = [
     githubUrl: "#",
   },
   {
-    id: 8,
+    id: 9,
     slug: "yetkaz-logistics-platform",
     title: "Yetkaz - Smart Logistics Platform",
     category: "Web Application",
@@ -321,7 +360,7 @@ const projects: Project[] = [
     githubUrl: "https://github.com/logiflow/platform",
   },
   {
-    id: 9,
+    id: 10,
     slug: "pharmacy-management",
     title: "Pharmacy Management System",
     category: "Web Application",
@@ -357,6 +396,7 @@ const projects: Project[] = [
     liveUrl: "#",
     githubUrl: "#",
   },
+
 ]
 
 export { projects }
