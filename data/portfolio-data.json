@@ -94,6 +94,20 @@
   ],
   "experience": [
     {
+      "title": "Frontend (Next.js) Developer",
+      "company": "SoffHub",
+      "period": "Oct 2025 – Present",
+      "description": "Developing and maintaining multiple digital platforms including ilmiyish.uz (scientific works marketplace), soff.uz (digital academic marketplace), soffcrm.uz (CRM system for educational centers), and soffia.uz (AI-powered presentation creation platform). Building scalable frontend architectures with Next.js, implementing responsive UI/UX designs, and optimizing platform performance.",
+      "achievements": [
+        "Developed ilmiyish.uz - Scientific Works Marketplace with advanced search and verification systems",
+        "Built soff.uz - Digital Academic Marketplace with payment integration and analytics dashboards",
+        "Created soffcrm.uz - Educational CRM system with student/teacher portals and automated notifications",
+        "Engineered soffia.uz - AI-powered presentation platform with flexible pricing and multi-language support",
+        "Architected scalable frontend systems with Next.js, React, and TypeScript"
+      ],
+      "technologies": ["Next.js", "React", "TypeScript", "Tailwind CSS", "MongoDB", "Redux Toolkit", "AI/ML Integration"]
+    },
+    {
       "title": "Team Lead & Frontend Developer",
       "company": "Freelance Projects",
       "period": "May 2025 – Present",
@@ -109,13 +123,14 @@
       "title": "Frontend Developer",
       "company": "TenzorSoft",
       "period": "Feb 2025 – Aug 2025",
-      "description": "Engineered complex platforms (logistics, warehouse management, university portals) using React/Next.js/Angular. Integrated payment systems and SMS services.",
+      "description": "Engineered complex platforms including omborim.uz (chemical warehouse management system for 300+ warehouses) and mycoal.uz (coal supply chain management with real-time GPS tracking). Used React/Next.js/Angular with payment systems and SMS services integration.",
       "achievements": [
-        "Developed logistics and warehouse management platforms",
+        "Developed omborim.uz - Chemical Warehouse Management System with Faktura.uz & UzEx.uz API integrations",
+        "Built mycoal.uz - Coal Supply Chain Management with real-time GPS tracking and WebSocket integration",
         "Integrated Payme, Click payment systems",
         "Optimized API performance achieving 30% faster response times"
       ],
-      "technologies": ["React", "Next.js", "Angular", "Payme", "Click", "Eskiz"]
+      "technologies": ["React", "Next.js", "Angular", "Material UI", "WebSocket", "Maps API", "Payme", "Click", "Eskiz"]
     },
     {
       "title": "Frontend Developer",

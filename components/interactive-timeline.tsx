@@ -22,8 +22,8 @@ const timelineData: TimelineItem[] = [
     location: "Tashkent, Uzbekistan",
     period: "Oct 2025 – Present",
     description:
-      "Developing and maintaining multiple digital platforms: ilmiyish.uz (digital marketplace for academic materials and ready-made works), soffcrm.uz (modern CRM platform for educational centers), soffhub.uz (company website and services), and soff.uz (digital products and tech solutions hub). Building scalable frontend architectures with Next.js, implementing responsive UI/UX designs, and optimizing platform performance.",
-    technologies: ["Next.js", "React", "TypeScript", "TailwindCSS", "Digital Platforms"],
+      "Developing and maintaining multiple digital platforms: ilmiyish.uz (scientific works marketplace), soff.uz (digital academic marketplace), soffcrm.uz (CRM system for educational centers), and soffia.uz (AI-powered presentation creation platform). Building scalable frontend architectures with Next.js, implementing responsive UI/UX designs, and optimizing platform performance.",
+    technologies: ["Next.js", "React", "TypeScript", "TailwindCSS", "MongoDB", "AI/ML Integration"],
     isActive: true,
   },
   {
@@ -44,8 +44,8 @@ const timelineData: TimelineItem[] = [
     location: "Tashkent, Uzbekistan",
     period: "Feb 2025 – Aug 2025",
     description:
-      "Engineered complex platforms (logistics, warehouse management, university portals) using React/Next.js/Angular. Integrated payment systems and SMS services. Developed logistics and warehouse management platforms, integrated Payme, Click payment systems, and optimized API performance achieving 30% faster response times.",
-    technologies: ["React", "Next.js", "Angular", "Payme", "Click", "Eskiz"],
+      "Engineered complex platforms including omborim.uz (chemical warehouse management system for 300+ warehouses with Faktura.uz & UzEx.uz API integrations) and mycoal.uz (coal supply chain management with real-time GPS tracking and WebSocket integration). Used React/Next.js/Angular with payment systems and SMS services integration.",
+    technologies: ["React", "Next.js", "Angular", "Material UI", "WebSocket", "Maps API", "Payme", "Click"],
     isActive: false,
   },
   {
