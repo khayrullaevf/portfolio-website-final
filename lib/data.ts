@@ -25,6 +25,7 @@ export async function getPersonalInfo() {
     workingHours: personal?.working_hours ?? "",
     availableForWork: personal?.available_for_work ?? false,
     badges: (personal?.badges ?? []) as string[],
+    cvUrl: personal?.cv_url ?? "",
     social: (social ?? []).map((s) => ({ platform: s.platform, url: s.url, icon: s.icon })),
   }
 }

@@ -30,9 +30,8 @@ export function EnhancedProfile({
   const [activeTab, setActiveTab] = useState("about");
 
   const handleDownloadCV = () => {
-    // CV faylini download qilish
     const link = document.createElement("a");
-    link.href = "/cv/Fazliddin_Khayrullaev_CV.pdf"; // public/cv/ papkasida CV fayl
+    link.href = personalInfo.cvUrl;
     link.download = "Fazliddin_Khayrullaev_CV.pdf";
     document.body.appendChild(link);
     link.click();

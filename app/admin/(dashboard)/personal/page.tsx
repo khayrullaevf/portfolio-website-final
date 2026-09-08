@@ -7,6 +7,7 @@ const fields: FieldConfig[] = [
   { key: "title", label: "Lavozim", type: "text", required: true },
   { key: "location", label: "Manzil", type: "text" },
   { key: "avatar_url", label: "Avatar", type: "image", folder: "avatars" },
+  { key: "cv_url", label: "CV (PDF)", type: "image", folder: "cv" },
   { key: "email", label: "Email", type: "text" },
   { key: "phone", label: "Telefon", type: "text" },
   { key: "working_hours", label: "Ish vaqti", type: "text" },
