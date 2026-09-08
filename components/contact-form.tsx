@@ -18,7 +18,6 @@ import {
 } from "@/components/ui/form";
 import { toast } from "@/hooks/use-toast";
 
-// Define the form schema with validation rules
 const formSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters" }),
   email: z.string().email({ message: "Please enter a valid email address" }),
@@ -35,80 +34,62 @@ type FormValues = z.infer<typeof formSchema>;
 export function ContactForm() {
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  // Initialize the form with react-hook-form and zod validation
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: "",
-      email: "",
-      subject: "",
-      message: "",
-    },
+    defaultValues: { name: "", email: "", subject: "", message: "" },
   });
 
-  // Handle form submission
   async function sendContactForm(formData: FormValues) {
-    try {
-      const response = await fetch(
-        "https://contact-bot-backend.onrender.com/contact",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        }
-      );
-
-      const result = await response.json();
-
-      if (result.success) {
-        console.log("Xabar yuborildi:", result.message);
-        return result;
-      } else {
-        console.error("Xatolik:", result.message);
-        throw new Error(result.message);
+    const response = await fetch(
+      "https://contact-bot-backend.onrender.com/contact",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
       }
-    } catch (error) {
-      console.error("Xatolik yuz berdi:", error);
-      throw error;
-    }
+    );
+
+    const result = await response.json();
+    if (!result.success) throw new Error(result.message);
+    return result;
   }
 
   async function onSubmit(data: FormValues) {
     try {
       await sendContactForm(data);
       setIsSubmitted(true);
-      
-      // Success toast
       toast({
-        title: "Xabar yuborildi!",
-        description: "Tez orada siz bilan bog'lanamiz.",
+        title: "Message sent",
+        description: "Thanks — I'll get back to you shortly.",
       });
     } catch (error) {
-      // Error toast
       toast({
-        title: "Xatolik yuz berdi!",
-        description: error instanceof Error ? error.message : "Xabar yuborishda xatolik yuz berdi. Qayta urinib ko'ring.",
         variant: "destructive",
+        title: "Message not sent",
+        description:
+          error instanceof Error
+            ? error.message
+            : "Something went wrong. Please try again.",
       });
-      
-      console.error("Form submission error:", error);
     }
   }
 
   if (isSubmitted) {
     return (
-      <div className="flex flex-col items-center justify-center p-6">
-        <div className="w-16 h-16 mb-4 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 flex items-center justify-center">
-          <SendIcon className="w-6 h-6 text-white" />
-        </div>
-        <h4 className="text-lg font-medium mb-2">Message Sent!</h4>
-        <p className="text-sm text-center text-zinc-400 mb-4">
-          Thanks for reaching out. I'll get back to you as soon as possible.
+      <div className="border border-border p-8">
+        <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-sand">
+          Sent
         </p>
-        <Button variant="outline" onClick={() => setIsSubmitted(false)}>
-          Send Another Message
+        <p className="mt-3 max-w-measure text-pretty leading-relaxed text-muted-foreground">
+          Thanks for reaching out. I&apos;ll get back to you as soon as I can.
+        </p>
+        <Button
+          variant="outline"
+          size="sm"
+          className="mt-6"
+          onClick={() => setIsSubmitted(false)}
+        >
+          Send another message
         </Button>
       </div>
     );
@@ -116,22 +97,20 @@ export function ContactForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
           <FormField
             control={form.control}
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-white">Name</FormLabel>
+                <FormLabel className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
+                  Name
+                </FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="Your name"
-                    className="bg-zinc-800/50 border-zinc-700 focus:border-cyan-500"
-                    {...field}
-                  />
+                  <Input placeholder="Your name" {...field} />
                 </FormControl>
-                <FormMessage className="text-xs text-red-500" />
+                <FormMessage className="text-xs" />
               </FormItem>
             )}
           />
@@ -141,16 +120,17 @@ export function ContactForm() {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-white">Email</FormLabel>
+                <FormLabel className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
+                  Email
+                </FormLabel>
                 <FormControl>
                   <Input
                     type="email"
-                    placeholder="your.email@example.com"
-                    className="bg-zinc-800/50 border-zinc-700 focus:border-cyan-500"
+                    placeholder="you@example.com"
                     {...field}
                   />
                 </FormControl>
-                <FormMessage className="text-xs text-red-500" />
+                <FormMessage className="text-xs" />
               </FormItem>
             )}
           />
@@ -161,15 +141,13 @@ export function ContactForm() {
           name="subject"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-white">Subject</FormLabel>
+              <FormLabel className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
+                Subject
+              </FormLabel>
               <FormControl>
-                <Input
-                  placeholder="What is this regarding?"
-                  className="bg-zinc-800/50 border-zinc-700 focus:border-cyan-500"
-                  {...field}
-                />
+                <Input placeholder="What is this regarding?" {...field} />
               </FormControl>
-              <FormMessage className="text-xs text-red-500" />
+              <FormMessage className="text-xs" />
             </FormItem>
           )}
         />
@@ -179,33 +157,35 @@ export function ContactForm() {
           name="message"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-white">Message</FormLabel>
+              <FormLabel className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
+                Message
+              </FormLabel>
               <FormControl>
                 <Textarea
                   placeholder="Your message"
-                  className="bg-zinc-800/50 border-zinc-700 focus:border-cyan-500 min-h-[120px]"
+                  className="min-h-[140px]"
                   {...field}
                 />
               </FormControl>
-              <FormMessage className="text-xs text-red-500" />
+              <FormMessage className="text-xs" />
             </FormItem>
           )}
         />
 
         <Button
           type="submit"
-          className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white disabled:opacity-50 disabled:cursor-not-allowed"
           disabled={form.formState.isSubmitting}
+          className="w-full sm:w-auto"
         >
           {form.formState.isSubmitting ? (
             <>
-              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-              Sending...
+              <Loader2 className="h-4 w-4 animate-spin" />
+              Sending…
             </>
           ) : (
             <>
-              <SendIcon className="w-4 h-4 mr-2" />
-              Send Message
+              <SendIcon className="h-4 w-4" />
+              Send message
             </>
           )}
         </Button>

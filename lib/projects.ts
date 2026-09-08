@@ -29,8 +29,20 @@ export interface Project {
   role: string
   liveUrl?: string
   githubUrl?: string
+  /** Featured projects lead the work section; the rest fall into the archive. */
+  featured: boolean
+  /** Sortable label for the archive row. `timeline` holds prose, so it can't serve. */
+  year: string
+  problem: string
+  approach: string[]
+  tradeoffs: string[]
+  impact: string[]
 }
 
+// The case-study columns land via 0003_project_case_study.sql. Every fallback
+// below matches that migration's default, so a row read before the migration is
+// applied maps to the same shape it will have afterwards — nothing breaks in
+// between, the new sections simply render as empty and are omitted.
 function mapProject(row: any, gallery?: any[]): Project {
   return {
     id: row.id,
@@ -49,6 +61,12 @@ function mapProject(row: any, gallery?: any[]): Project {
     role: row.role,
     liveUrl: row.live_url ?? undefined,
     githubUrl: row.github_url ?? undefined,
+    featured: row.featured ?? false,
+    year: row.year ?? "",
+    problem: row.problem ?? "",
+    approach: row.approach ?? [],
+    tradeoffs: row.tradeoffs ?? [],
+    impact: row.impact ?? [],
   }
 }
 
@@ -72,9 +90,11 @@ export async function getProjectBySlug(slug: string): Promise<Project | undefine
   return mapProject(project, gallery ?? [])
 }
 
+// Was `limit = 2`, which silently capped "More projects" at two rows no matter
+// how many existed.
 export async function getRelatedProjects(
   currentSlug: string,
-  limit = 2,
+  limit = 4,
 ): Promise<RelatedProject[]> {
   const supabase = createPublicClient()
   const { data } = await supabase

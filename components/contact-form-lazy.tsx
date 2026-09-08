@@ -12,14 +12,14 @@ const ContactForm = dynamic(() => import("@/components/contact-form").then((m) =
 
 function ContactFormSkeleton() {
   return (
-    <div className="space-y-6 animate-pulse" aria-hidden="true">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="h-16 rounded-md bg-zinc-800/60" />
-        <div className="h-16 rounded-md bg-zinc-800/60" />
+    <div className="animate-pulse space-y-5" aria-hidden="true">
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+        <div className="h-16 rounded-sm bg-muted" />
+        <div className="h-16 rounded-sm bg-muted" />
       </div>
-      <div className="h-16 rounded-md bg-zinc-800/60" />
-      <div className="h-32 rounded-md bg-zinc-800/60" />
-      <div className="h-10 w-32 rounded-md bg-zinc-800/60" />
+      <div className="h-16 rounded-sm bg-muted" />
+      <div className="h-40 rounded-sm bg-muted" />
+      <div className="h-10 w-40 rounded-sm bg-muted" />
     </div>
   )
 }

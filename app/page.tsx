@@ -1,7 +1,3 @@
-import { GlobeIcon } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { ProjectCard } from "@/components/project-card";
 import {
   getAllProjects,
   getPersonalInfo,
@@ -10,119 +6,104 @@ import {
   getSkills,
   getCredentialsInfo,
 } from "@/lib/data";
-import { EnhancedScrollIndicator } from "@/components/enhanced-scroll-indicator";
-import { EnhancedProfile } from "@/components/enhanced-profile";
-import { CredentialsSection } from "@/components/credentials-section";
 import { PortfolioHeader } from "@/components/portfolio-header";
+import { Hero } from "@/components/hero";
+import { AboutSection } from "@/components/about-section";
+import { Section } from "@/components/section";
+import { ExperienceList } from "@/components/experience-list";
+import { CredentialsList } from "@/components/credentials-list";
+import { SkillsList } from "@/components/skills-list";
+import { SelectedWork } from "@/components/selected-work";
 import { ContactSection } from "@/components/contact-section";
-import { SkillsProgressSection } from "@/components/skills-progress-section";
-import { InteractiveTimeline } from "@/components/interactive-timeline";
 import { CommandPalette } from "@/components/command-palette";
 import { SiteFooter } from "@/components/site-footer";
 
 export const revalidate = 60;
 
 export default async function Home() {
-  const [projects, personalInfo, aboutInfo, experienceItems, skills, credentialsInfo] =
-    await Promise.all([
-      getAllProjects(),
-      getPersonalInfo(),
-      getAboutInfo(),
-      getExperienceInfo(),
-      getSkills(),
-      getCredentialsInfo(),
-    ]);
+  const [
+    projects,
+    personalInfo,
+    aboutInfo,
+    experienceItems,
+    skills,
+    credentialsInfo,
+  ] = await Promise.all([
+    getAllProjects(),
+    getPersonalInfo(),
+    getAboutInfo(),
+    getExperienceInfo(),
+    getSkills(),
+    getCredentialsInfo(),
+  ]);
 
   return (
-    <main className="min-h-screen bg-black text-white">
-      {/* Background Grid Pattern */}
-      <div className="fixed inset-0 bg-[radial-gradient(#333_1px,transparent_1px)] [background-size:20px_20px] opacity-20 z-0"></div>
-
-      {/* Header */}
+    <>
       <PortfolioHeader personalInfo={personalInfo} />
 
-      <div className="relative z-10 container mx-auto p-3 sm:p-4 pt-20 sm:pt-24 pb-6 sm:pb-8">
-        {/* Main Content Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-          {/* Enhanced Profile Section */}
-          <div className="md:sticky md:top-24 self-start">
-            <EnhancedProfile personalInfo={personalInfo} aboutInfo={aboutInfo} />
-          </div>
+      {/*
+        One column, one measure. The old layout was a sticky profile card beside
+        a stack of nine equal-weight panels; hierarchy now comes from order and
+        whitespace instead of from borders.
+      */}
+      <main id="main" className="grain relative mx-auto max-w-3xl px-5 sm:px-6">
+        <Hero personalInfo={personalInfo} aboutInfo={aboutInfo} />
 
-          <div className="col-span-1 md:col-span-2 lg:col-span-3 space-y-4 sm:space-y-6">
-            <section id="experience">
-              <InteractiveTimeline items={experienceItems} />
-            </section>
+        <div className="space-y-24 pb-8">
+          <AboutSection aboutInfo={aboutInfo} />
 
-            {/* Credentials Section */}
-            <section id="credentials">
-              <CredentialsSection credentialsInfo={credentialsInfo} />
-            </section>
-            {/* Skills Section */}
-            <section id="skills">
-              <SkillsProgressSection skills={skills} />
-            </section>
+          {/* The five anchor ids below are referenced by lib/nav.ts and the
+              command palette — renaming one silently breaks both. */}
+          {experienceItems.length > 0 && (
+            <Section id="experience" label="01 — Experience" title="Where I've worked">
+              <ExperienceList items={experienceItems} />
+            </Section>
+          )}
 
-            {/* Projects Section */}
-            <section id="projects">
-              <Card className="bg-zinc-900/70 border-zinc-800">
-                <CardContent className="p-4 sm:p-6">
-                  <div className="flex items-center justify-between mb-4 sm:mb-6">
-                    <div className="flex items-center">
-                      <GlobeIcon className="w-5 h-5 mr-2 text-cyan-400" />
-                      <h3 className="text-lg font-medium">Recent Projects</h3>
-                    </div>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="text-xs sm:text-sm px-2 sm:px-3"
-                    >
-                      View All
-                    </Button>
-                  </div>
+          {projects.length > 0 && (
+            <Section id="projects" label="02 — Work" title="Selected work">
+              <SelectedWork projects={projects} />
+            </Section>
+          )}
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-                    {projects.map((project) => (
-                      <div key={project.id}>
-                        <ProjectCard
-                          title={project.title}
-                          category={project.category}
-                          image={project.thumbnailImage}
-                          slug={project.slug}
-                        />
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            </section>
+          {skills.length > 0 && (
+            <Section id="skills" label="03 — Skills" title="What I work with">
+              <SkillsList skills={skills} />
+            </Section>
+          )}
 
-            {/* Contact Section */}
-            <section id="contact">
-              <ContactSection personalInfo={personalInfo} />
-            </section>
-          </div>
+          {(credentialsInfo.education.length > 0 ||
+            credentialsInfo.certifications.length > 0) && (
+            <Section
+              id="credentials"
+              label="04 — Credentials"
+              title="Education & certificates"
+            >
+              <CredentialsList credentialsInfo={credentialsInfo} />
+            </Section>
+          )}
+
+          <Section id="contact" label="05 — Contact" title="Get in touch">
+            <ContactSection personalInfo={personalInfo} />
+          </Section>
         </div>
 
         <SiteFooter name={personalInfo.name} email={personalInfo.email} />
-      </div>
+      </main>
 
       <CommandPalette
-        projects={projects.map((p) => ({
-          slug: p.slug,
-          title: p.title,
-          category: p.category,
+        projects={projects.map((project) => ({
+          slug: project.slug,
+          title: project.title,
+          category: project.category,
         }))}
         email={personalInfo.email}
         cvUrl={personalInfo.cvUrl}
-        social={personalInfo.social.map((s) => ({
-          platform: s.platform,
-          url: s.url,
+        social={personalInfo.social.map((link) => ({
+          platform: link.platform,
+          url: link.url,
         }))}
       />
-
-      {/* Scroll to Top Button */}
-      <EnhancedScrollIndicator />
-    </main>
+    </>
   );
 }

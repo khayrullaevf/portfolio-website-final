@@ -52,21 +52,26 @@ interface SocialLinksProps {
 
 export function SocialLinks({ socialLinks }: SocialLinksProps) {
   return (
-    <div className="flex justify-center gap-2 sm:gap-3 my-2 sm:my-3">
+    // No `justify-center`: the caller decides alignment, and everything on this
+    // site is left-aligned.
+    <ul className="flex flex-wrap items-center gap-5">
       {socialLinks.map((link, index) => {
         const IconComponent = ICONS[link.icon] ?? LinkIcon
 
         return (
-          <a
-            key={index}
-            href={link.url}
-            className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-zinc-800 flex items-center justify-center hover:bg-zinc-700 transition-colors"
-            aria-label={link.platform}
-          >
-            <IconComponent className="w-3 h-3 sm:w-4 sm:h-4" />
-          </a>
+          <li key={index}>
+            <a
+              href={link.url}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 rounded-sm font-mono text-[11px] uppercase tracking-[0.12em] text-muted-foreground outline-none transition-colors duration-fast ease-smooth hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 focus-visible:ring-offset-background"
+            >
+              <IconComponent className="h-3.5 w-3.5" aria-hidden />
+              {link.platform}
+            </a>
+          </li>
         )
       })}
-    </div>
+    </ul>
   )
 }
