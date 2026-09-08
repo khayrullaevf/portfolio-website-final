@@ -4,7 +4,6 @@ import { Instrument_Serif, Inter_Tight, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import { ScrollProgressIndicator } from "@/components/scroll-progress-indicator";
 import { ViewTransitionListener } from "@/components/view-transition";
-import { AnimationProvider } from "@/contexts/animation-context";
 import { Toaster } from "@/components/ui/toaster";
 import { getMetaInfo } from "@/lib/data";
 
@@ -85,12 +84,10 @@ export default function RootLayout({
         <a href="#main" className="skip-link">
           Skip to content
         </a>
-        <AnimationProvider>
-          <ViewTransitionListener />
-          <ScrollProgressIndicator />
-          {children}
-          <Toaster />
-        </AnimationProvider>
+        <ViewTransitionListener />
+        <ScrollProgressIndicator />
+        {children}
+        <Toaster />
       </body>
     </html>
   );

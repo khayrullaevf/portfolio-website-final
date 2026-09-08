@@ -165,7 +165,7 @@ export function PortfolioHeader({
               onClick={() => setMenuOpen(false)}
               tabIndex={menuOpen ? undefined : -1}
               className={cn(
-                "border-b border-border py-4 font-display text-2xl outline-none transition-colors duration-fast ease-smooth focus-visible:text-sand",
+                "rounded-sm border-b border-border py-4 font-display text-2xl outline-none transition-colors duration-fast ease-smooth focus-visible:text-sand focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
                 isCurrent(item.href) ? "text-sand" : "hover:text-sand"
               )}
             >
@@ -180,7 +180,7 @@ export function PortfolioHeader({
               setMenuOpen(false);
               window.dispatchEvent(new Event(OPEN_COMMAND_PALETTE));
             }}
-            className="flex items-center gap-3 border-b border-border py-4 text-left font-display text-2xl outline-none transition-colors duration-fast ease-smooth hover:text-sand focus-visible:text-sand"
+            className="flex items-center gap-3 rounded-sm border-b border-border py-4 text-left font-display text-2xl outline-none transition-colors duration-fast ease-smooth hover:text-sand focus-visible:text-sand focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
           >
             <Search className="h-4 w-4" aria-hidden />
             Search
