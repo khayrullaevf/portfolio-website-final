@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Menu, Search, X } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { OPEN_COMMAND_PALETTE } from "@/components/command-palette";
+import { OPEN_COMMAND_PALETTE } from "@/lib/command-palette-event";
 import { CommandPaletteTrigger } from "@/components/command-palette-trigger";
 // Never import from lib/data here: that module builds a Supabase client, and a
 // value import would pull @supabase/supabase-js (~80 kB gz) into this bundle.

@@ -15,7 +15,7 @@ import { CredentialsList } from "@/components/credentials-list";
 import { SkillsList } from "@/components/skills-list";
 import { SelectedWork } from "@/components/selected-work";
 import { ContactSection } from "@/components/contact-section";
-import { CommandPalette } from "@/components/command-palette";
+import { CommandPaletteMount } from "@/components/command-palette-mount";
 import { SiteFooter } from "@/components/site-footer";
 
 export const revalidate = 60;
@@ -91,7 +91,7 @@ export default async function Home() {
         <SiteFooter name={personalInfo.name} email={personalInfo.email} />
       </main>
 
-      <CommandPalette
+      <CommandPaletteMount
         projects={projects.map((project) => ({
           slug: project.slug,
           title: project.title,

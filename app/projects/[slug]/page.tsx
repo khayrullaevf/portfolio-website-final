@@ -9,7 +9,7 @@ import {
   getPersonalInfo,
 } from "@/lib/data"
 import { PortfolioHeader } from "@/components/portfolio-header"
-import { CommandPalette } from "@/components/command-palette"
+import { CommandPaletteMount } from "@/components/command-palette-mount"
 import { SiteFooter } from "@/components/site-footer"
 import { SkillTag } from "@/components/skill-tag"
 
@@ -298,7 +298,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         <SiteFooter name={personalInfo.name} email={personalInfo.email} />
       </main>
 
-      <CommandPalette
+      <CommandPaletteMount
         projects={allProjects.map((item) => ({
           slug: item.slug,
           title: item.title,

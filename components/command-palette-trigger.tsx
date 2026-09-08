@@ -2,7 +2,7 @@
 
 import { Search } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { OPEN_COMMAND_PALETTE } from "@/components/command-palette";
+import { OPEN_COMMAND_PALETTE } from "@/lib/command-palette-event";
 
 /**
  * Opens the palette by dispatching a window event, so nothing has to share

@@ -18,9 +18,6 @@ import { cn } from "@/lib/utils";
 import { getNavItems } from "@/lib/nav";
 import { useToast } from "@/hooks/use-toast";
 
-/** Event any component can fire to open the palette without prop-drilling. */
-export const OPEN_COMMAND_PALETTE = "open-command-palette";
-
 export interface PaletteProject {
   slug: string;
   title: string;
@@ -67,15 +64,24 @@ function prefersReducedMotion() {
  *
  * Every command is derived from serializable props, so the Server Components
  * that mount this never have to ship a callback across the boundary.
+ *
+ * Controlled on purpose: components/command-palette-mount.tsx owns the open
+ * state and the key listener, which is what lets this module stay out of the
+ * first-load bundle until someone actually opens it.
  */
 export function CommandPalette({
+  open,
+  onOpenChange,
   projects = [],
   email = "",
   cvUrl = "",
   social = [],
   adminSections = [],
-}: CommandPaletteProps) {
-  const [open, setOpen] = useState(false);
+}: CommandPaletteProps & {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+}) {
+  const setOpen = onOpenChange;
   const [query, setQuery] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
   const listRef = useRef<HTMLDivElement>(null);
@@ -84,24 +90,6 @@ export function CommandPalette({
   const { toast } = useToast();
 
   const isAdmin = pathname.startsWith("/admin");
-
-  // ⌘K anywhere, plus the header's search affordance.
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key.toLowerCase() === "k" && (e.metaKey || e.ctrlKey)) {
-        e.preventDefault();
-        setOpen((prev) => !prev);
-      }
-    };
-    const onOpen = () => setOpen(true);
-
-    window.addEventListener("keydown", onKey);
-    window.addEventListener(OPEN_COMMAND_PALETTE, onOpen);
-    return () => {
-      window.removeEventListener("keydown", onKey);
-      window.removeEventListener(OPEN_COMMAND_PALETTE, onOpen);
-    };
-  }, []);
 
   const go = useCallback(
     (href: string) => {

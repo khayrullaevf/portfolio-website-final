@@ -1,5 +1,5 @@
 import { ADMIN_NAV } from "@/lib/admin/nav"
-import { CommandPalette } from "@/components/command-palette"
+import { CommandPaletteMount } from "@/components/command-palette-mount"
 
 /**
  * The same ⌘K palette the public site uses, fed the admin sidebar instead.
@@ -10,7 +10,7 @@ import { CommandPalette } from "@/components/command-palette"
  */
 export function AdminCommandPalette() {
   return (
-    <CommandPalette
+    <CommandPaletteMount
       adminSections={ADMIN_NAV.map((item) => ({
         label: item.label,
         href: item.href,
