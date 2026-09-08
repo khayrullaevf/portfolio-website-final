@@ -32,7 +32,7 @@
     ]
   },
   "about": {
-    "bio": "Frontend Developer with around 2 years of experience specializing in React, Next.js, and Angular, with a strong focus on scalable UI architecture and high-performance systems. Proven leadership as a team lead managing a 6-person development team delivering enterprise solutions across healthcare, education, and logistics. Passionate about clean code, performance optimization, and cross-functional collaboration.",
+    "bio": "Frontend Developer with around 3 years of experience specializing in React, Next.js, and Angular, with a strong focus on scalable UI architecture and high-performance systems. Proven leadership as a team lead managing a 6-person development team delivering enterprise solutions across healthcare, education, and logistics. Passionate about clean code, performance optimization, and cross-functional collaboration.",
     "focus": [
       "Building scalable frontend systems with React, Next.js, and Angular",
       "Leading cross-functional development teams and code review processes",
@@ -93,10 +93,10 @@
     }
   ],
   "experience": [
-    {
-      "title": "Frontend (Next.js) Developer",
-      "company": "SoffHub",
-      "period": "Oct 2025 – Present",
+      {
+      "title": "Frontend Engineer",
+      "company": "Zaytun Tech",
+      "period": "Aug 2026 – Present",
       "description": "Developing and maintaining multiple digital platforms including ilmiyish.uz (scientific works marketplace), soff.uz (digital academic marketplace), soffcrm.uz (CRM system for educational centers), and soffia.uz (AI-powered presentation creation platform). Building scalable frontend architectures with Next.js, implementing responsive UI/UX designs, and optimizing platform performance.",
       "achievements": [
         "Developed ilmiyish.uz - Scientific Works Marketplace with advanced search and verification systems",
@@ -108,16 +108,18 @@
       "technologies": ["Next.js", "React", "TypeScript", "Tailwind CSS", "MongoDB", "Redux Toolkit", "AI/ML Integration"]
     },
     {
-      "title": "Team Lead & Frontend Developer",
-      "company": "Freelance Projects",
-      "period": "May 2025 – Present",
-      "description": "Founded and lead a 6-person cross-functional team (3 Java backend, 1 frontend developer) delivering full-stack web solutions. Architected scalable frontend systems using Next.js, React, TypeScript and TailwindCSS.",
+      "title": "Frontend Engineer & Frontend Team Lead",
+      "company": "SoffHub",
+      "period": "Oct 2025 – July 2026",
+      "description": "Developing and maintaining multiple digital platforms including ilmiyish.uz (scientific works marketplace), soff.uz (digital academic marketplace), soffcrm.uz (CRM system for educational centers), and soffia.uz (AI-powered presentation creation platform). Building scalable frontend architectures with Next.js, implementing responsive UI/UX designs, and optimizing platform performance.",
       "achievements": [
-        "Led cross-functional team of 6 developers",
-        "Architected scalable frontend systems",
-        "Directed project planning and code review processes"
+        "Developed ilmiyish.uz - Scientific Works Marketplace with advanced search and verification systems",
+        "Built soff.uz - Digital Academic Marketplace with payment integration and analytics dashboards",
+        "Created soffcrm.uz - Educational CRM system with student/teacher portals and automated notifications",
+        "Engineered soffia.uz - AI-powered presentation platform with flexible pricing and multi-language support",
+        "Architected scalable frontend systems with Next.js, React, and TypeScript"
       ],
-      "technologies": ["Next.js", "React", "TypeScript", "TailwindCSS", "Team Leadership"]
+      "technologies": ["Next.js", "React", "TypeScript", "Tailwind CSS", "MongoDB", "Redux Toolkit", "AI/ML Integration"]
     },
     {
       "title": "Frontend Developer",
