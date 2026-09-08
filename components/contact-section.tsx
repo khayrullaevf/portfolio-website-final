@@ -2,11 +2,13 @@ import { Card, CardContent } from "@/components/ui/card"
 import { ContactForm } from "@/components/contact-form"
 import { UserIcon, Mail, Phone, MapPin, Clock } from "lucide-react"
 import { SocialLinks } from "@/components/social-links"
-import { getPersonalInfo } from "@/lib/data"
+import type { getPersonalInfo } from "@/lib/data"
 
-export function ContactSection() {
-  const personalInfo = getPersonalInfo()
-
+export function ContactSection({
+  personalInfo,
+}: {
+  personalInfo: Awaited<ReturnType<typeof getPersonalInfo>>
+}) {
   return (
     <Card className="bg-zinc-900/70 border-zinc-800 backdrop-blur-sm col-span-1 md:col-span-3 lg:col-span-4 overflow-hidden">
       <CardContent className="p-0">
@@ -30,10 +32,10 @@ export function ContactSection() {
                   <div>
                     <h4 className="font-medium">Email</h4>
                     <a
-                      href="mailto:fazliddinkhayrullaev4@gmail.com"
+                      href={`mailto:${personalInfo.email}`}
                       className="text-sm text-zinc-400 hover:text-cyan-400 transition-colors"
                     >
-                      fazliddinkhayrullaev4@gmail.com
+                      {personalInfo.email}
                     </a>
                   </div>
                 </div>
@@ -42,8 +44,8 @@ export function ContactSection() {
                   <Phone className="w-5 h-5 mr-3 text-cyan-400 mt-0.5" />
                   <div>
                     <h4 className="font-medium">Phone</h4>
-                    <a href="tel:+998999483779" className="text-sm text-zinc-400 hover:text-cyan-400 transition-colors">
-                      +998 99 948 37 79
+                    <a href={`tel:${personalInfo.phone}`} className="text-sm text-zinc-400 hover:text-cyan-400 transition-colors">
+                      {personalInfo.phone}
                     </a>
                   </div>
                 </div>
@@ -52,7 +54,7 @@ export function ContactSection() {
                   <MapPin className="w-5 h-5 mr-3 text-cyan-400 mt-0.5" />
                   <div>
                     <h4 className="font-medium">Location</h4>
-                    <p className="text-sm text-zinc-400">Tashkent, Uzbekistan</p>
+                    <p className="text-sm text-zinc-400">{personalInfo.location}</p>
                   </div>
                 </div>
 
@@ -60,7 +62,7 @@ export function ContactSection() {
                   <Clock className="w-5 h-5 mr-3 text-cyan-400 mt-0.5" />
                   <div>
                     <h4 className="font-medium">Working Hours</h4>
-                    <p className="text-sm text-zinc-400">Monday - Friday, 9am - 6pm UZT</p>
+                    <p className="text-sm text-zinc-400">{personalInfo.workingHours}</p>
                   </div>
                 </div>
               </div>

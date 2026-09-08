@@ -6,11 +6,14 @@ import { Button } from "@/components/ui/button"
 import { GraduationCap, Award, Download, Loader2 } from "lucide-react"
 import { SkillTag } from "@/components/skill-tag"
 import { AnimatedSection } from "@/components/animated-section"
-import { getCredentialsInfo } from "@/lib/data"
+import type { getCredentialsInfo } from "@/lib/data"
 
-export function CredentialsSection() {
+export function CredentialsSection({
+  credentialsInfo,
+}: {
+  credentialsInfo: Awaited<ReturnType<typeof getCredentialsInfo>>
+}) {
   const [downloadingCert, setDownloadingCert] = useState<string | null>(null)
-  const credentialsInfo = getCredentialsInfo()
 
   const handleDownloadCertificate = async (cert: any, index: number) => {
     const certId = `cert-${index}`;

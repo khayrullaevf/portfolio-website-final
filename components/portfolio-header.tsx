@@ -4,15 +4,18 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import { Menu, X } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { getNavItems, getPersonalInfo } from "@/lib/data"
+import { getNavItems, type getPersonalInfo } from "@/lib/data"
 
-export function PortfolioHeader() {
+export function PortfolioHeader({
+  personalInfo,
+}: {
+  personalInfo: Awaited<ReturnType<typeof getPersonalInfo>>
+}) {
   const [scrolled, setScrolled] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [activeSection, setActiveSection] = useState("")
 
   const navItems = getNavItems()
-  const personalInfo = getPersonalInfo()
 
   useEffect(() => {
     const handleScroll = () => {

@@ -10,13 +10,14 @@ import Head from "next/head";
 
 const inter = Inter({ subsets: ["latin"] });
 
-const metaInfo = getMetaInfo();
-
-export const metadata: Metadata = {
-  title: metaInfo.title,
-  description: metaInfo.description,
-  generator: "v0.app",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const metaInfo = await getMetaInfo();
+  return {
+    title: metaInfo.title,
+    description: metaInfo.description,
+    generator: "v0.app",
+  };
+}
 
 export default function RootLayout({
   children,

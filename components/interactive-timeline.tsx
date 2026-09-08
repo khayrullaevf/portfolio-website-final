@@ -14,55 +14,10 @@ interface TimelineItem {
   isActive?: boolean
 }
 
-const timelineData: TimelineItem[] = [
-  {
-    id: "1",
-    title: "Frontend (Next.js) Developer",
-    company: "SoffHub",
-    location: "Tashkent, Uzbekistan",
-    period: "Oct 2025 – Present",
-    description:
-      "Developing and maintaining multiple digital platforms: ilmiyish.uz (scientific works marketplace), soff.uz (digital academic marketplace), soffcrm.uz (CRM system for educational centers), and soffia.uz (AI-powered presentation creation platform). Building scalable frontend architectures with Next.js, implementing responsive UI/UX designs, and optimizing platform performance.",
-    technologies: ["Next.js", "React", "TypeScript", "TailwindCSS", "MongoDB", "AI/ML Integration"],
-    isActive: true,
-  },
-  {
-    id: "2",
-    title: "Team Lead & Frontend Developer",
-    company: "Freelance Projects",
-    location: "Tashkent, Uzbekistan",
-    period: "May 2025 – Present",
-    description:
-      "Founded and led a 6-person cross-functional team (3 Java backend, 1 frontend developer) delivering full-stack web solutions. Architected scalable frontend systems using Next.js, React, TypeScript and TailwindCSS. Directed project planning and code review processes, ensuring high-quality deliverables across multiple client projects.",
-    technologies: ["Next.js", "React", "TypeScript", "TailwindCSS", "Team Leadership"],
-    isActive: false,
-  },
-  {
-    id: "3",
-    title: "Frontend Developer",
-    company: "TenzorSoft",
-    location: "Tashkent, Uzbekistan",
-    period: "Feb 2025 – Aug 2025",
-    description:
-      "Engineered complex platforms including omborim.uz (chemical warehouse management system for 300+ warehouses with Faktura.uz & UzEx.uz API integrations) and mycoal.uz (coal supply chain management with real-time GPS tracking and WebSocket integration). Used React/Next.js/Angular with payment systems and SMS services integration.",
-    technologies: ["React", "Next.js", "Angular", "Material UI", "WebSocket", "Maps API", "Payme", "Click"],
-    isActive: false,
-  },
-  {
-    id: "4",
-    title: "Frontend Developer",
-    company: "UzbekGidroEnergo",
-    location: "Tashkent, Uzbekistan",
-    period: "Feb 2024 – Jan 2025",
-    description:
-      "Developed real-time water aggregation and reservoir monitoring dashboards with Angular, Tailwind CSS, and Ant Design. Collaborated with backend team to digitize hydro infrastructure operations. Built real-time monitoring dashboards for water management, implemented data visualization for reservoir analytics, and digitized hydro infrastructure operations.",
-    technologies: ["Angular", "Tailwind CSS", "Ant Design", "Data Visualization", "Real-time Systems"],
-    isActive: false,
-  },
-];
+export function InteractiveTimeline({ items }: { items: TimelineItem[] }) {
+  const [activeItem, setActiveItem] = useState<string | undefined>(items[0]?.id)
 
-export function InteractiveTimeline() {
-  const [activeItem, setActiveItem] = useState<string>(timelineData[0].id)
+  if (items.length === 0) return null
 
   return (
     <div className="py-16 bg-zinc-900 min-h-screen">
@@ -78,7 +33,7 @@ export function InteractiveTimeline() {
 
             {/* Timeline Items */}
             <div className="space-y-8">
-              {timelineData.map((item, index) => (
+              {items.map((item) => (
                 <div
                   key={item.id}
                   className={`relative md:pl-20 cursor-pointer transition-all duration-300 ${

@@ -18,13 +18,16 @@ import {
   FileText,
   Download,
 } from "lucide-react";
-import { getPersonalInfo, getAboutInfo } from "@/lib/data";
+import type { getPersonalInfo, getAboutInfo } from "@/lib/data";
 
-export function EnhancedProfile() {
+export function EnhancedProfile({
+  personalInfo,
+  aboutInfo,
+}: {
+  personalInfo: Awaited<ReturnType<typeof getPersonalInfo>>;
+  aboutInfo: Awaited<ReturnType<typeof getAboutInfo>>;
+}) {
   const [activeTab, setActiveTab] = useState("about");
-
-  const personalInfo = getPersonalInfo();
-  const aboutInfo = getAboutInfo();
 
   const handleDownloadCV = () => {
     // CV faylini download qilish

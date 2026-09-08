@@ -4,11 +4,13 @@ import { ArrowLeft, ExternalLink, Github } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { SkillTag } from "@/components/skill-tag"
-import { getProjectBySlug } from "@/lib/data"
+import { getAllProjects, getProjectBySlug, getRelatedProjects, getPersonalInfo } from "@/lib/data"
 import { notFound } from "next/navigation"
 import { EnhancedScrollIndicator } from "@/components/enhanced-scroll-indicator"
 import { AnimatedSection } from "@/components/animated-section"
 import { PortfolioHeader } from "@/components/portfolio-header"
+
+export const revalidate = 60
 
 interface ProjectPageProps {
   params: {
@@ -16,12 +18,22 @@ interface ProjectPageProps {
   }
 }
 
-export default function ProjectPage({ params }: ProjectPageProps) {
-  const project = getProjectBySlug(params.slug)
+export async function generateStaticParams() {
+  const projects = await getAllProjects()
+  return projects.map((project) => ({ slug: project.slug }))
+}
+
+export default async function ProjectPage({ params }: ProjectPageProps) {
+  const project = await getProjectBySlug(params.slug)
 
   if (!project) {
     notFound()
   }
+
+  const [relatedProjects, personalInfo] = await Promise.all([
+    getRelatedProjects(params.slug),
+    getPersonalInfo(),
+  ])
 
   return (
     <main className="min-h-screen bg-black text-white">
@@ -29,7 +41,7 @@ export default function ProjectPage({ params }: ProjectPageProps) {
       <div className="fixed inset-0 bg-[radial-gradient(#333_1px,transparent_1px)] [background-size:20px_20px] opacity-20 z-0"></div>
 
       {/* Header */}
-      <PortfolioHeader />
+      <PortfolioHeader personalInfo={personalInfo} />
 
       <div className="relative z-10 container mx-auto p-3 sm:p-4 pt-20 sm:pt-24 pb-6 sm:pb-8">
         {/* Back Button */}
@@ -181,8 +193,7 @@ export default function ProjectPage({ params }: ProjectPageProps) {
                 <CardContent className="p-4 sm:p-6">
                   <h2 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4">More Projects</h2>
                   <div className="space-y-3 sm:space-y-4">
-                    {project.relatedProjects &&
-                      project.relatedProjects.map((related, index) => (
+                    {relatedProjects.map((related, index) => (
                         <AnimatedSection key={index} animation="fade-up" delay={100 * (index + 1)}>
                           <Link href={`/projects/${related.slug}`} className="block group">
                             <div className="flex items-center gap-2 sm:gap-3">
@@ -217,7 +228,7 @@ export default function ProjectPage({ params }: ProjectPageProps) {
           delay={500}
           className="mt-8 sm:mt-12 py-4 sm:py-6 text-center text-xs sm:text-sm text-zinc-500"
         >
-          <p>© {new Date().getFullYear()} Jane Doe. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} {personalInfo.name}. All rights reserved.</p>
         </AnimatedSection>
       </div>
 
