@@ -107,7 +107,7 @@ export function Hero({
       <h1
         className={
           leadIsShort
-            ? "enter enter-2 mt-10 max-w-[22ch] text-balance font-display text-display-md leading-[1.14]"
+            ? "enter enter-2 mt-10 max-w-[22ch] text-balance font-display text-display-md"
             : "enter enter-2 mt-10 max-w-[58ch] text-pretty text-xl leading-loose text-foreground/85"
         }
       >

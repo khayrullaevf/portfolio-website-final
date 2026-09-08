@@ -29,9 +29,16 @@ const config = {
       },
       fontSize: {
         // Editorial display scale. Fluid, so the hero never needs breakpoints.
-        "display-sm": ["clamp(1.875rem, 4vw, 2.5rem)", { lineHeight: "1.1", letterSpacing: "-0.015em" }],
-        "display-md": ["clamp(2.5rem, 7vw, 4rem)", { lineHeight: "1.02", letterSpacing: "-0.02em" }],
-        "display-lg": ["clamp(3rem, 11vw, 6rem)", { lineHeight: "0.95", letterSpacing: "-0.025em" }],
+        //
+        // Tracking is zero-to-positive, not negative. Negative tracking is a
+        // sans-serif convention — Inter and friends are wide by default and
+        // want tightening at display sizes. Instrument Serif is already a
+        // condensed, high-contrast face; pulling it tighter jammed the letters
+        // together ("Frontend" read as one blot). Larger sizes need less of it
+        // than smaller ones, hence the scale below.
+        "display-sm": ["clamp(1.875rem, 4vw, 2.5rem)", { lineHeight: "1.15", letterSpacing: "0.02em" }],
+        "display-md": ["clamp(2.5rem, 7vw, 4rem)", { lineHeight: "1.08", letterSpacing: "0.015em" }],
+        "display-lg": ["clamp(3rem, 11vw, 6rem)", { lineHeight: "1.02", letterSpacing: "0.005em" }],
       },
       maxWidth: {
         // Reading measure for body copy; the shell column is max-w-3xl.

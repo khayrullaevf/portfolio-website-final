@@ -90,7 +90,7 @@ export function PortfolioHeader({
       <div className="mx-auto flex h-16 max-w-3xl items-center justify-between px-5 sm:px-6">
         <Link
           href="/"
-          className="whitespace-nowrap rounded-sm font-display text-base leading-none tracking-tight outline-none transition-colors duration-fast ease-smooth hover:text-sand focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 focus-visible:ring-offset-background"
+          className="whitespace-nowrap rounded-sm font-display text-base leading-none tracking-[0.01em] outline-none transition-colors duration-fast ease-smooth hover:text-sand focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 focus-visible:ring-offset-background"
         >
           {personalInfo.name}
         </Link>
