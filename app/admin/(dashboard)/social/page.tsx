@@ -3,10 +3,10 @@ import { ResourceCrud } from "@/components/admin/resource-crud"
 import type { FieldConfig } from "@/lib/admin/field"
 
 const fields: FieldConfig[] = [
-  { key: "platform", label: "Platforma (masalan GitHub)", type: "text", required: true },
-  { key: "url", label: "URL", type: "text", required: true },
-  { key: "icon", label: "Ikonka nomi (lucide-react, masalan Github)", type: "text" },
-  { key: "sort_order", label: "Tartib raqami", type: "number" },
+  { key: "platform", label: "Platforma (masalan GitHub)", type: "text", required: true, list: "primary" },
+  { key: "url", label: "URL", type: "text", required: true, list: "secondary" },
+  { key: "icon", label: "Ikonka", type: "text", list: "meta" },
+  { key: "sort_order", label: "Tartib", type: "number", list: "meta" },
 ]
 
 export default async function SocialAdminPage() {

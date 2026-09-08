@@ -23,18 +23,31 @@ export async function middleware(request: NextRequest) {
     },
   )
 
+  // getSession() reads the session out of the cookie locally and only hits the
+  // network when the token has actually expired (to refresh it, which is the
+  // other reason this middleware exists — hence returning `response` below).
+  // getUser() instead validates against Supabase Auth over HTTPS on *every*
+  // request, including every RSC navigation and prefetch under /admin, which
+  // put a full round trip in front of each sidebar click.
+  //
+  // That makes this a routing gate, not the security boundary: enforcement
+  // lives in RLS on every table plus requireAdminClient() (which does call
+  // getUser()) in front of every mutation. A forged cookie gets the admin
+  // shell and nothing else — every read comes back empty, every write fails.
+  // Only the session's existence is checked; session.user is deliberately
+  // never read, since that getter is the unverified one.
   const {
-    data: { user },
-  } = await supabase.auth.getUser()
+    data: { session },
+  } = await supabase.auth.getSession()
 
   const isLoginPage = request.nextUrl.pathname === "/admin/login"
 
-  if (!user && !isLoginPage) {
+  if (!session && !isLoginPage) {
     const loginUrl = new URL("/admin/login", request.url)
     return NextResponse.redirect(loginUrl)
   }
 
-  if (user && isLoginPage) {
+  if (session && isLoginPage) {
     return NextResponse.redirect(new URL("/admin", request.url))
   }
 

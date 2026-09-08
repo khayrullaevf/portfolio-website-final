@@ -6,9 +6,9 @@ import type { FieldConfig } from "@/lib/admin/field"
 
 const galleryFields: FieldConfig[] = [
   { key: "project_id", label: "", type: "hidden" },
-  { key: "url", label: "Rasm", type: "image", folder: "projects" },
-  { key: "caption", label: "Izoh", type: "text" },
-  { key: "sort_order", label: "Tartib raqami", type: "number" },
+  { key: "url", label: "Rasm", type: "image", folder: "projects", list: "thumb" },
+  { key: "caption", label: "Izoh", type: "text", list: "primary" },
+  { key: "sort_order", label: "Tartib", type: "number", list: "meta" },
 ]
 
 export default async function EditProjectAdminPage({
@@ -42,6 +42,7 @@ export default async function EditProjectAdminPage({
           fields={galleryFields}
           rows={gallery ?? []}
           titleField="caption"
+          emptyPrimaryLabel="Izohsiz rasm"
           revalidatePaths={["/", `/projects/${project.slug}`, `/admin/projects/${project.id}`]}
           createDefaults={{ project_id: project.id }}
         />

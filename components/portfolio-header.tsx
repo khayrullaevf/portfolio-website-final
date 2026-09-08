@@ -4,7 +4,8 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import { Menu, X } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { getNavItems, type getPersonalInfo } from "@/lib/data"
+import { getNavItems } from "@/lib/nav"
+import type { getPersonalInfo } from "@/lib/data"
 
 export function PortfolioHeader({
   personalInfo,

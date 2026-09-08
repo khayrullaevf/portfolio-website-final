@@ -1,11 +1,13 @@
 "use client"
 
-import { useState, useTransition } from "react"
+import { useTransition } from "react"
+import { Loader2, Save } from "lucide-react"
 import type { FieldConfig } from "@/lib/admin/field"
 import type { SingletonTable } from "@/lib/actions/crud"
 import { updateSingleton } from "@/lib/actions/crud"
 import { ResourceFormFields } from "@/components/admin/resource-form-fields"
 import { Button } from "@/components/ui/button"
+import { useToast } from "@/hooks/use-toast"
 
 export function SingletonForm({
   table,
@@ -19,23 +21,27 @@ export function SingletonForm({
   revalidatePaths: string[]
 }) {
   const [pending, startTransition] = useTransition()
-  const [saved, setSaved] = useState(false)
+  const { toast } = useToast()
 
   function handleSubmit(formData: FormData) {
     startTransition(async () => {
-      await updateSingleton(table, fields, formData, revalidatePaths)
-      setSaved(true)
-      setTimeout(() => setSaved(false), 2000)
+      const result = await updateSingleton(table, fields, formData, revalidatePaths)
+
+      if (result.ok) {
+        toast({ title: "Saqlandi" })
+      } else {
+        toast({ variant: "destructive", title: "Saqlanmadi", description: result.message })
+      }
     })
   }
 
   return (
-    <form action={handleSubmit} className="space-y-4 max-w-xl">
+    <form action={handleSubmit} className="max-w-xl space-y-4">
       <ResourceFormFields fields={fields} values={values} />
       <Button type="submit" disabled={pending}>
+        {pending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
         Saqlash
       </Button>
-      {saved && <p className="text-sm text-green-500">Saqlandi</p>}
     </form>
   )
 }

@@ -1,17 +1,12 @@
+import { unstable_cache } from "next/cache"
 import { createPublicClient } from "@/lib/supabase/public"
 
-// Site navigation is structural (tied to in-page anchor ids), not editorial
-// content, so it stays hardcoded rather than living in Supabase.
-export function getNavItems() {
-  return [
-    { label: "Home", href: "/" },
-    { label: "Experience", href: "#experience" },
-    { label: "Credentials", href: "#credentials" },
-    { label: "Skills", href: "#skills" },
-    { label: "Projects", href: "#projects" },
-    { label: "Contact", href: "#contact" },
-  ]
-}
+/** Cache tag for meta_info; updateSingleton revalidates it after a SEO edit. */
+export const META_INFO_TAG = "meta-info"
+
+// Re-exported for convenience; the canonical home is lib/nav.ts, which Client
+// Components must import from directly (see the note there).
+export { getNavItems } from "@/lib/nav"
 
 export async function getPersonalInfo() {
   const supabase = createPublicClient()
@@ -108,15 +103,22 @@ export async function getCredentialsInfo() {
   }
 }
 
-export async function getMetaInfo() {
-  const supabase = createPublicClient()
-  const { data } = await supabase.from("meta_info").select("*").eq("id", 1).single()
+// The root layout's generateMetadata awaits this on *every* request, admin
+// routes included — and admin routes are dynamic, so no route cache absorbs
+// it. Caching it keeps one Supabase query off every single navigation.
+export const getMetaInfo = unstable_cache(
+  async () => {
+    const supabase = createPublicClient()
+    const { data } = await supabase.from("meta_info").select("*").eq("id", 1).single()
 
-  return {
-    title: data?.title ?? "Fazliddin Khayrullaev | Software Engineer",
-    description: data?.description ?? "",
-  }
-}
+    return {
+      title: data?.title ?? "Fazliddin Khayrullaev | Software Engineer",
+      description: data?.description ?? "",
+    }
+  },
+  ["meta-info"],
+  { tags: [META_INFO_TAG], revalidate: 3600 },
+)
 
 export {
   getAllProjects,

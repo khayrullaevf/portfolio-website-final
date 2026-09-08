@@ -65,6 +65,9 @@ export function ResourceFormFields({
                 required={field.required}
                 defaultValue={fieldValueToString(field, current)}
                 rows={field.type === "array" ? 4 : 3}
+                // text-base below sm: anything under 16px makes iOS Safari
+                // zoom the viewport on focus.
+                className="text-base sm:text-sm"
               />
             </div>
           )
@@ -79,6 +82,7 @@ export function ResourceFormFields({
               type={field.type === "number" ? "number" : "text"}
               required={field.required}
               defaultValue={fieldValueToString(field, current)}
+              className="text-base sm:text-sm"
             />
           </div>
         )

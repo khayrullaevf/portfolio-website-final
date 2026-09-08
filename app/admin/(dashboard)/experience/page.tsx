@@ -3,14 +3,14 @@ import { ResourceCrud } from "@/components/admin/resource-crud"
 import type { FieldConfig } from "@/lib/admin/field"
 
 const fields: FieldConfig[] = [
-  { key: "title", label: "Lavozim", type: "text", required: true },
-  { key: "company", label: "Kompaniya", type: "text", required: true },
-  { key: "location", label: "Manzil", type: "text" },
-  { key: "period", label: "Davr (masalan Aug 2026 – Present)", type: "text" },
+  { key: "title", label: "Lavozim", type: "text", required: true, list: "primary" },
+  { key: "company", label: "Kompaniya", type: "text", required: true, list: "secondary" },
+  { key: "location", label: "Manzil", type: "text", list: "meta" },
+  { key: "period", label: "Davr (masalan Aug 2026 – Present)", type: "text", list: "secondary" },
   { key: "description", label: "Tavsif", type: "textarea" },
   { key: "technologies", label: "Texnologiyalar", type: "array" },
-  { key: "is_active", label: "Hozirgi ish joyi", type: "boolean" },
-  { key: "sort_order", label: "Tartib raqami", type: "number" },
+  { key: "is_active", label: "Hozirgi", type: "boolean", list: "badge" },
+  { key: "sort_order", label: "Tartib", type: "number", list: "meta" },
 ]
 
 export default async function ExperienceAdminPage() {

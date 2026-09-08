@@ -16,7 +16,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { toast } from "./ui/use-toast";
+import { toast } from "@/hooks/use-toast";
 
 // Define the form schema with validation rules
 const formSchema = z.object({

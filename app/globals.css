@@ -22,6 +22,9 @@
   --border: 240 5% 26%;
   --input: 240 5% 26%;
   --ring: 186 100% 50%;
+  /* tailwind.config.ts maps borderRadius lg/md/sm to this. Without it every
+     rounded-lg/md/sm in the app emits an invalid value and renders square. */
+  --radius: 0.5rem;
 }
 
 html {

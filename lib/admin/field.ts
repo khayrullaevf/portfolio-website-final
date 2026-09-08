@@ -1,5 +1,18 @@
 export type FieldType = "text" | "textarea" | "number" | "boolean" | "array" | "image" | "hidden"
 
+/**
+ * How a field renders inside a ResourceCrud list row. Omit to keep the field
+ * form-only (it still round-trips through create/edit, it just isn't listed).
+ *
+ * - `primary`   bold first line; falls back to ResourceCrud's `titleField`
+ * - `secondary` muted second line; several of them join with " · "
+ * - `meta`      small chip on the third line, prefixed with the field label
+ * - `badge`     boolean only; shows the label as a cyan badge when true
+ * - `thumb`     image only; 40x40 preview at the left edge of the row
+ * - `swatch`    a colour dot, for columns holding a CSS colour
+ */
+export type FieldListRole = "primary" | "secondary" | "meta" | "badge" | "thumb" | "swatch"
+
 export interface FieldConfig {
   key: string
   label: string
@@ -7,6 +20,8 @@ export interface FieldConfig {
   required?: boolean
   /** Storage folder to upload into, only used when type === "image" */
   folder?: string
+  /** Where this field shows up in the admin list. Omit to hide it from the list. */
+  list?: FieldListRole
 }
 
 // Turns raw form values (all strings/booleans from the DOM) into the shape

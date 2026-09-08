@@ -3,11 +3,16 @@ import { ResourceCrud } from "@/components/admin/resource-crud"
 import type { FieldConfig } from "@/lib/admin/field"
 
 const fields: FieldConfig[] = [
-  { key: "name", label: "Nomi", type: "text", required: true },
-  { key: "level", label: "Daraja (0-100)", type: "number" },
-  { key: "category", label: "Kategoriya", type: "text" },
-  { key: "color", label: "Rang (masalan #61DAFB yoki tailwind class)", type: "text" },
-  { key: "sort_order", label: "Tartib raqami", type: "number" },
+  { key: "name", label: "Nomi", type: "text", required: true, list: "primary" },
+  { key: "level", label: "Daraja", type: "number", list: "meta" },
+  { key: "category", label: "Kategoriya", type: "text", list: "secondary" },
+  {
+    key: "color",
+    label: "Rang (masalan #61DAFB yoki tailwind class)",
+    type: "text",
+    list: "swatch",
+  },
+  { key: "sort_order", label: "Tartib", type: "number", list: "meta" },
 ]
 
 export default async function SkillsAdminPage() {

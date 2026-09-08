@@ -2,18 +2,24 @@
 
 import { requireAdminClient } from "@/lib/actions/require-admin"
 
-export async function uploadFile(folder: string, file: File) {
-  const supabase = await requireAdminClient()
+export type UploadResult = { ok: true; url: string } | { ok: false; message: string }
 
-  const ext = file.name.split(".").pop()
-  const path = `${folder}/${crypto.randomUUID()}.${ext}`
+export async function uploadFile(folder: string, file: File): Promise<UploadResult> {
+  try {
+    const supabase = await requireAdminClient()
 
-  const { error } = await supabase.storage.from("portfolio").upload(path, file, {
-    cacheControl: "3600",
-    upsert: false,
-  })
-  if (error) throw new Error(error.message)
+    const ext = file.name.split(".").pop()
+    const path = `${folder}/${crypto.randomUUID()}.${ext}`
 
-  const { data } = supabase.storage.from("portfolio").getPublicUrl(path)
-  return data.publicUrl
+    const { error } = await supabase.storage.from("portfolio").upload(path, file, {
+      cacheControl: "3600",
+      upsert: false,
+    })
+    if (error) return { ok: false, message: error.message }
+
+    const { data } = supabase.storage.from("portfolio").getPublicUrl(path)
+    return { ok: true, url: data.publicUrl }
+  } catch (error) {
+    return { ok: false, message: error instanceof Error ? error.message : String(error) }
+  }
 }

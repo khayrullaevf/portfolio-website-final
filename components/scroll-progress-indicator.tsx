@@ -1,11 +1,17 @@
 "use client"
 
 import { useEffect, useRef } from "react"
+import { usePathname } from "next/navigation"
 
 export function ScrollProgressIndicator() {
   const barRef = useRef<HTMLDivElement>(null)
+  // Mounted by the root layout, which also wraps /admin — but a reading-progress
+  // bar makes no sense over a dashboard, where it just overlays the sidebar.
+  const isAdmin = usePathname().startsWith("/admin")
 
   useEffect(() => {
+    if (isAdmin) return
+
     let frame = 0
 
     // Write the width straight to the DOM instead of through state, so
@@ -36,7 +42,9 @@ export function ScrollProgressIndicator() {
       window.removeEventListener("scroll", onScroll)
       window.removeEventListener("resize", onScroll)
     }
-  }, [])
+  }, [isAdmin])
+
+  if (isAdmin) return null
 
   return (
     <div className="fixed top-0 left-0 right-0 h-1 bg-zinc-800 z-50">

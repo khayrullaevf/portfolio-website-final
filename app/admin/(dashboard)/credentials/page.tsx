@@ -4,20 +4,20 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import type { FieldConfig } from "@/lib/admin/field"
 
 const certificationFields: FieldConfig[] = [
-  { key: "name", label: "Nomi", type: "text", required: true },
-  { key: "issuer", label: "Beruvchi tashkilot", type: "text" },
-  { key: "date", label: "Sana", type: "text" },
-  { key: "logo_url", label: "Logo", type: "image", folder: "logos" },
+  { key: "name", label: "Nomi", type: "text", required: true, list: "primary" },
+  { key: "issuer", label: "Beruvchi tashkilot", type: "text", list: "secondary" },
+  { key: "date", label: "Sana", type: "text", list: "secondary" },
+  { key: "logo_url", label: "Logo", type: "image", folder: "logos", list: "thumb" },
   { key: "pdf_url", label: "Sertifikat PDF", type: "image", folder: "certificates" },
-  { key: "sort_order", label: "Tartib raqami", type: "number" },
+  { key: "sort_order", label: "Tartib", type: "number", list: "meta" },
 ]
 
 const educationFields: FieldConfig[] = [
-  { key: "degree", label: "Daraja/Yo'nalish", type: "text", required: true },
-  { key: "institution", label: "Muassasa", type: "text" },
-  { key: "year", label: "Yillar", type: "text" },
-  { key: "logo_url", label: "Logo", type: "image", folder: "logos" },
-  { key: "sort_order", label: "Tartib raqami", type: "number" },
+  { key: "degree", label: "Daraja/Yo'nalish", type: "text", required: true, list: "primary" },
+  { key: "institution", label: "Muassasa", type: "text", list: "secondary" },
+  { key: "year", label: "Yillar", type: "text", list: "secondary" },
+  { key: "logo_url", label: "Logo", type: "image", folder: "logos", list: "thumb" },
+  { key: "sort_order", label: "Tartib", type: "number", list: "meta" },
 ]
 
 export default async function CredentialsAdminPage() {

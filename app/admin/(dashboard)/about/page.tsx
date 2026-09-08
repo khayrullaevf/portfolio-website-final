@@ -10,11 +10,11 @@ const aboutFields: FieldConfig[] = [
 ]
 
 const languageFields: FieldConfig[] = [
-  { key: "name", label: "Til nomi", type: "text", required: true },
-  { key: "proficiency", label: "Daraja (matn)", type: "text" },
-  { key: "level", label: "Daraja (%)", type: "number" },
-  { key: "flag", label: "Bayroq (emoji)", type: "text" },
-  { key: "sort_order", label: "Tartib raqami", type: "number" },
+  { key: "name", label: "Til nomi", type: "text", required: true, list: "primary" },
+  { key: "proficiency", label: "Daraja (matn)", type: "text", list: "secondary" },
+  { key: "level", label: "Daraja (%)", type: "number", list: "meta" },
+  { key: "flag", label: "Bayroq", type: "text", list: "meta" },
+  { key: "sort_order", label: "Tartib", type: "number", list: "meta" },
 ]
 
 export default async function AboutAdminPage() {
