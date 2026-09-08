@@ -32,7 +32,7 @@ export default function AdminLoginPage() {
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center p-5">
+    <main id="main" className="flex min-h-screen items-center justify-center p-5">
       {/* No card: a hairline and whitespace, same as the public site. */}
       <div className="w-full max-w-sm">
         <span className="flex h-10 w-10 items-center justify-center rounded-sm bg-sand font-display text-xl text-primary-foreground">

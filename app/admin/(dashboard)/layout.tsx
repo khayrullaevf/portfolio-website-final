@@ -30,7 +30,7 @@ export default function AdminDashboardLayout({ children }: { children: React.Rea
 
       <AdminMobileNav />
 
-      <main className="min-w-0 flex-1 p-4 md:p-8">{children}</main>
+      <main id="main" className="min-w-0 flex-1 p-4 md:p-8">{children}</main>
 
       <AdminCommandPalette />
     </div>
