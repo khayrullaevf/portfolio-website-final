@@ -12,7 +12,6 @@ const fields: FieldConfig[] = [
   { key: "phone", label: "Telefon", type: "text" },
   { key: "working_hours", label: "Ish vaqti", type: "text" },
   { key: "available_for_work", label: "Ishga ochiqman", type: "boolean" },
-  { key: "badges", label: "Badge'lar", type: "array" },
 ]
 
 export default async function PersonalAdminPage() {

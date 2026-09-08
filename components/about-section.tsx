@@ -24,9 +24,18 @@ export function AboutSection({
 }: {
   aboutInfo: Awaited<ReturnType<typeof getAboutInfo>>;
 }) {
-  const { focus, interests, languages } = aboutInfo;
+  const { headline, bio, focus, interests, languages } = aboutInfo;
 
-  if (focus.length === 0 && interests.length === 0 && languages.length === 0) {
+  // The hero prints `bio` only while `headline` is empty. Once it isn't, the
+  // long form belongs here — showing both would say the same thing twice.
+  const showBio = Boolean(bio) && Boolean(headline);
+
+  if (
+    !showBio &&
+    focus.length === 0 &&
+    interests.length === 0 &&
+    languages.length === 0
+  ) {
     return null;
   }
 
@@ -37,6 +46,14 @@ export function AboutSection({
       className="reveal scroll-mt-24 border-t border-border pt-12"
     >
       <dl className="divide-y divide-border">
+        {showBio && (
+          <Row label="Bio">
+            <span className="block max-w-measure text-muted-foreground">
+              {bio}
+            </span>
+          </Row>
+        )}
+
         {focus.length > 0 && <Row label="Focus">{focus.join(" · ")}</Row>}
 
         {languages.length > 0 && (

@@ -38,6 +38,7 @@ export async function getAboutInfo() {
   ])
 
   return {
+    headline: about?.headline ?? "",
     bio: about?.bio ?? "",
     focus: (about?.focus ?? []) as string[],
     interests: (about?.interests ?? []) as string[],

@@ -20,7 +20,7 @@ export function ExperienceList({
       {items.map((item) => (
         <li
           key={item.id}
-          className="grid gap-3 py-8 first:pt-0 md:grid-cols-[9rem_1fr] md:gap-10"
+          className="grid gap-3 py-10 first:pt-0 md:grid-cols-[9rem_1fr] md:gap-10"
         >
           <div className="space-y-2 md:pt-1.5">
             <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground">

@@ -6,12 +6,16 @@
 // that module's `createPublicClient` — and with it the whole
 // @supabase/supabase-js bundle — into the browser on every public page.
 export function getNavItems() {
+  // Order matches app/page.tsx: work before experience. The hrefs are the
+  // contract — `#projects` keeps its id even though it reads "Work", because
+  // every existing link, the command palette and the case-study back link all
+  // resolve against it.
   return [
     { label: "Home", href: "/" },
+    { label: "Work", href: "#projects" },
     { label: "Experience", href: "#experience" },
-    { label: "Credentials", href: "#credentials" },
     { label: "Skills", href: "#skills" },
-    { label: "Projects", href: "#projects" },
+    { label: "Credentials", href: "#credentials" },
     { label: "Contact", href: "#contact" },
   ]
 }

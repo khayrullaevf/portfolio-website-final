@@ -4,7 +4,8 @@ import { ResourceCrud } from "@/components/admin/resource-crud"
 import type { FieldConfig } from "@/lib/admin/field"
 
 const aboutFields: FieldConfig[] = [
-  { key: "bio", label: "Bio", type: "textarea", required: true },
+  { key: "headline", label: "Headline (hero uchun qisqa, 1-2 gap)", type: "textarea" },
+  { key: "bio", label: "Bio (to'liq, About bo'limida chiqadi)", type: "textarea", required: true },
   { key: "focus", label: "Fokus yo'nalishlari", type: "array" },
   { key: "interests", label: "Qiziqishlar", type: "array" },
 ]

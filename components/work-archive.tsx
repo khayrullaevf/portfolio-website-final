@@ -23,7 +23,7 @@ export function WorkArchive({ projects }: { projects: Project[] }) {
           <li key={project.id}>
             <Link
               href={`/projects/${project.slug}`}
-              className="group grid grid-cols-[3rem_1fr_auto] items-baseline gap-4 rounded-sm py-4 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:grid-cols-[4rem_1fr_auto_1rem] sm:gap-6"
+              className="group grid grid-cols-[3rem_1fr_auto] items-baseline gap-4 rounded-sm py-5 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:grid-cols-[4rem_1fr_auto_1rem] sm:gap-6"
             >
               <span className="font-mono text-[11px] text-muted-foreground">
                 {project.year}

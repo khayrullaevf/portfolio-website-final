@@ -47,22 +47,26 @@ export default async function Home() {
         whitespace instead of from borders.
       */}
       <main id="main" className="grain relative mx-auto max-w-3xl px-5 sm:px-6">
-        <Hero personalInfo={personalInfo} aboutInfo={aboutInfo} />
+        <Hero
+          personalInfo={personalInfo}
+          aboutInfo={aboutInfo}
+          experienceItems={experienceItems}
+          skills={skills}
+        />
 
         <div className="space-y-24 pb-8">
-          <AboutSection aboutInfo={aboutInfo} />
-
           {/* The five anchor ids below are referenced by lib/nav.ts and the
-              command palette — renaming one silently breaks both. */}
-          {experienceItems.length > 0 && (
-            <Section id="experience" label="01 — Experience" title="Where I've worked">
-              <ExperienceList items={experienceItems} />
+              command palette — renaming one silently breaks both. The order is
+              work first: what was shipped is stronger evidence than where. */}
+          {projects.length > 0 && (
+            <Section id="projects" label="01 — Work" title="Selected work">
+              <SelectedWork projects={projects} />
             </Section>
           )}
 
-          {projects.length > 0 && (
-            <Section id="projects" label="02 — Work" title="Selected work">
-              <SelectedWork projects={projects} />
+          {experienceItems.length > 0 && (
+            <Section id="experience" label="02 — Experience" title="Where I've worked">
+              <ExperienceList items={experienceItems} />
             </Section>
           )}
 
@@ -71,6 +75,10 @@ export default async function Home() {
               <SkillsList skills={skills} />
             </Section>
           )}
+
+          {/* Unnumbered on purpose: quiet metadata (bio, focus, languages),
+              not a section a reader navigates to. */}
+          <AboutSection aboutInfo={aboutInfo} />
 
           {(credentialsInfo.education.length > 0 ||
             credentialsInfo.certifications.length > 0) && (

@@ -28,7 +28,7 @@ export function CredentialsList({
 
           <ul className="divide-y divide-border border-b border-border">
             {education.map((item) => (
-              <li key={`${item.degree}-${item.year}`} className="py-4 first:pt-0">
+              <li key={`${item.degree}-${item.year}`} className="py-5 first:pt-0">
                 <p className="leading-snug">{item.degree}</p>
                 <p className="mt-1 font-mono text-[11px] uppercase tracking-[0.12em] text-muted-foreground">
                   {[item.institution, item.year].filter(Boolean).join(" · ")}
@@ -49,7 +49,7 @@ export function CredentialsList({
             {certifications.map((item) => (
               <li
                 key={`${item.name}-${item.date}`}
-                className="flex items-start justify-between gap-4 py-4 first:pt-0"
+                className="flex items-start justify-between gap-4 py-5 first:pt-0"
               >
                 <div className="min-w-0">
                   <p className="leading-snug">{item.name}</p>

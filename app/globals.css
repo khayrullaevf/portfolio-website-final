@@ -113,6 +113,33 @@
   }
 
   /*
+    Hero entrance.
+
+    Same contract as `.reveal`: the base state is the finished state, and the
+    animation is added only where motion is welcome. `.reveal` can't do this job
+    — it is scroll-driven, so an element already in view at load sits at the end
+    of its range and never plays. Stagger comes from `.enter-N` delays, not from
+    JavaScript.
+  */
+  .enter {
+    opacity: 1;
+    transform: none;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .enter {
+      animation: enter var(--dur-slow) var(--ease) both;
+    }
+
+    .enter-1 { animation-delay: 40ms; }
+    .enter-2 { animation-delay: 100ms; }
+    .enter-3 { animation-delay: 180ms; }
+    .enter-4 { animation-delay: 240ms; }
+    .enter-5 { animation-delay: 300ms; }
+    .enter-6 { animation-delay: 360ms; }
+  }
+
+  /*
     View transitions (components/view-transition.tsx). Only the page cross-fade
     is styled here — the named cover image morphs on its own, and the whole
     thing is skipped under reduced motion by the link itself.
@@ -138,6 +165,17 @@
   from {
     opacity: 0;
     transform: translate3d(0, 12px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes enter {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 10px, 0);
   }
   to {
     opacity: 1;

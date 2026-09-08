@@ -25,17 +25,17 @@ export function Section({
     <section
       id={id}
       aria-labelledby={`${id}-title`}
-      className={cn("reveal scroll-mt-24 border-t border-border pt-12", className)}
+      className={cn("reveal scroll-mt-24 border-t border-border pt-16", className)}
     >
       <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
         {label}
       </p>
 
-      <h2 id={`${id}-title`} className="mt-3 font-display text-display-sm">
+      <h2 id={`${id}-title`} className="mt-4 font-display text-display-sm">
         {title}
       </h2>
 
-      <div className="mt-10">{children}</div>
+      <div className="mt-12">{children}</div>
     </section>
   );
 }

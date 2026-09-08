@@ -32,7 +32,7 @@ export function SkillsList({ skills }: { skills: Skills }) {
       {groups.map((group) => (
         <div
           key={group.category}
-          className="grid gap-3 py-6 first:pt-0 md:grid-cols-[9rem_1fr] md:gap-10"
+          className="grid gap-3 py-7 first:pt-0 md:grid-cols-[9rem_1fr] md:gap-10"
         >
           <dt className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground md:pt-1">
             {group.category}
