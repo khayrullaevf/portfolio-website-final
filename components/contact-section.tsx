@@ -1,5 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card"
-import { ContactForm } from "@/components/contact-form"
+import { ContactFormLazy } from "@/components/contact-form-lazy"
 import { UserIcon, Mail, Phone, MapPin, Clock } from "lucide-react"
 import { SocialLinks } from "@/components/social-links"
 import type { getPersonalInfo } from "@/lib/data"
@@ -10,7 +10,7 @@ export function ContactSection({
   personalInfo: Awaited<ReturnType<typeof getPersonalInfo>>
 }) {
   return (
-    <Card className="bg-zinc-900/70 border-zinc-800 backdrop-blur-sm col-span-1 md:col-span-3 lg:col-span-4 overflow-hidden">
+    <Card className="bg-zinc-900/70 border-zinc-800 col-span-1 md:col-span-3 lg:col-span-4 overflow-hidden">
       <CardContent className="p-0">
         <div className="grid grid-cols-1 lg:grid-cols-3">
           {/* Contact Information */}
@@ -77,7 +77,7 @@ export function ContactSection({
           {/* Contact Form */}
           <div className="lg:col-span-2 p-6 lg:p-8 max-h-[500px] overflow-y-auto scrollbar-thin scrollbar-thumb-zinc-700 scrollbar-track-zinc-800/50">
             <h3 className="text-lg font-medium mb-6">Send a Message</h3>
-            <ContactForm />
+            <ContactFormLazy />
           </div>
         </div>
       </CardContent>

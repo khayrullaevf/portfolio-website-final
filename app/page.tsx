@@ -63,7 +63,7 @@ export default async function Home() {
 
             {/* Projects Section */}
             <section id="projects">
-              <Card className="bg-zinc-900/70 border-zinc-800 backdrop-blur-sm">
+              <Card className="bg-zinc-900/70 border-zinc-800">
                 <CardContent className="p-4 sm:p-6">
                   <div className="flex items-center justify-between mb-4 sm:mb-6">
                     <div className="flex items-center">

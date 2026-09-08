@@ -1,21 +1,39 @@
 import type React from "react";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ScrollProgressIndicator } from "@/components/scroll-progress-indicator";
 import { AnimationProvider } from "@/contexts/animation-context";
-import { MagneticCursor } from "@/components/magnetic-cursor";
+import { Toaster } from "@/components/ui/toaster";
 import { getMetaInfo } from "@/lib/data";
-import Head from "next/head";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin"], display: "swap" });
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+};
 
 export async function generateMetadata(): Promise<Metadata> {
   const metaInfo = await getMetaInfo();
   return {
     title: metaInfo.title,
     description: metaInfo.description,
-    generator: "v0.app",
+    keywords: [
+      "Fazliddin Khayrullaev",
+      "Fazliddin Xayrullayev",
+      "developer",
+      "portfolio",
+      "React",
+      "Next.js",
+      "web developer",
+    ],
+    authors: [{ name: "Fazliddin Khayrullaev" }],
+    openGraph: {
+      title: metaInfo.title,
+      description: metaInfo.description,
+      type: "website",
+    },
   };
 }
 
@@ -29,33 +47,8 @@ export default function RootLayout({
       <body className={inter.className}>
         <AnimationProvider>
           <ScrollProgressIndicator />
-          <MagneticCursor />
-          <Head>
-            <title>Fazliddin Khayrullaev - Portfolio</title>
-            <meta
-              name="description"
-              content="Fazliddin Khayrullaev - Full Stack Developer portfolio. Web dasturlash, React, Next.js bo'yicha loyihalar."
-            />
-            <meta
-              name="keywords"
-              content="Fazliddin Khayrullaev,Fazliddin Xayrullayev developer, portfolio, React, Next.js, web developer"
-            />
-            <meta name="author" content="Fazliddin Khayrullaev" />
-            <meta
-              property="og:title"
-              content="Fazliddin Khayrullaev - Portfolio"
-            />
-            <meta
-              property="og:description"
-              content="Professional web developer portfolio"
-            />
-            <meta property="og:type" content="website" />
-            <meta
-              name="viewport"
-              content="width=device-width, initial-scale=1"
-            />
-          </Head>
           {children}
+          <Toaster />
         </AnimationProvider>
       </body>
     </html>

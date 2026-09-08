@@ -58,7 +58,7 @@ export function InteractiveTimeline({ items }: { items: TimelineItem[] }) {
 
                   {/* Content Card */}
                   <div
-                    className={`bg-zinc-800/50 rounded-lg p-6 backdrop-blur-sm border transition-all duration-300 ${
+                    className={`bg-zinc-800/50 rounded-lg p-6 border transition-all duration-300 ${
                       activeItem === item.id
                         ? "border-cyan-500/50 shadow-lg shadow-cyan-500/10"
                         : "border-zinc-700/50 hover:border-zinc-600/50"

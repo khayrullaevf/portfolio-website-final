@@ -18,6 +18,7 @@ export function ProjectCard({ title, category, image, slug }: ProjectCardProps) 
             src={image || "/placeholder.svg"}
             alt={title}
             fill
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             className="object-cover transition-transform duration-300 group-hover:scale-105"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>

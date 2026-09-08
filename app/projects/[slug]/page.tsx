@@ -58,12 +58,14 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
           {/* Project Header */}
           <AnimatedSection animation="fade-up" className="lg:col-span-3">
-            <Card className="bg-zinc-900/70 border-zinc-800 backdrop-blur-sm overflow-hidden">
+            <Card className="bg-zinc-900/70 border-zinc-800 overflow-hidden">
               <div className="relative h-48 sm:h-64 md:h-80 w-full">
                 <Image
                   src={project.coverImage || "/placeholder.svg"}
                   alt={project.title}
                   fill
+                  priority
+                  sizes="(max-width: 1024px) 100vw, 1200px"
                   className="object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent"></div>
@@ -79,7 +81,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           {/* Project Content */}
           <div className="lg:col-span-2 space-y-4 sm:space-y-6">
             <AnimatedSection animation="fade-up" delay={100}>
-              <Card className="bg-zinc-900/70 border-zinc-800 backdrop-blur-sm">
+              <Card className="bg-zinc-900/70 border-zinc-800">
                 <CardContent className="p-4 sm:p-6">
                   <h2 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4">Project Overview</h2>
                   <div className="space-y-3 sm:space-y-4 text-sm sm:text-base text-zinc-300">
@@ -137,7 +139,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             {/* Project Gallery */}
             {project.gallery && project.gallery.length > 0 && (
               <AnimatedSection animation="fade-up" delay={200}>
-                <Card className="bg-zinc-900/70 border-zinc-800 backdrop-blur-sm">
+                <Card className="bg-zinc-900/70 border-zinc-800">
                   <CardContent className="p-4 sm:p-6">
                     <h2 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4">Project Gallery</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
@@ -148,6 +150,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                               src={image.url || "/placeholder.svg"}
                               alt={image.caption || `Gallery image ${index + 1}`}
                               fill
+                              sizes="(max-width: 768px) 100vw, 400px"
                               className="object-cover"
                             />
                           </div>
@@ -163,7 +166,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           {/* Project Sidebar */}
           <div className="space-y-4 sm:space-y-6">
             <AnimatedSection animation="slide-left" delay={100}>
-              <Card className="bg-zinc-900/70 border-zinc-800 backdrop-blur-sm">
+              <Card className="bg-zinc-900/70 border-zinc-800">
                 <CardContent className="p-4 sm:p-6">
                   <h2 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4">Project Details</h2>
 
@@ -189,7 +192,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
             {/* Next Projects */}
             <AnimatedSection animation="slide-left" delay={200}>
-              <Card className="bg-zinc-900/70 border-zinc-800 backdrop-blur-sm">
+              <Card className="bg-zinc-900/70 border-zinc-800">
                 <CardContent className="p-4 sm:p-6">
                   <h2 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4">More Projects</h2>
                   <div className="space-y-3 sm:space-y-4">
@@ -202,6 +205,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                                   src={related.image || "/placeholder.svg"}
                                   alt={related.title}
                                   fill
+                                  sizes="64px"
                                   className="object-cover"
                                 />
                               </div>

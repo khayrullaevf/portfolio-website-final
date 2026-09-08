@@ -40,7 +40,7 @@ export function EnhancedProfile({
   };
 
   return (
-    <Card className="bg-zinc-900/70 border-zinc-800 backdrop-blur-sm col-span-1 flex flex-col">
+    <Card className="bg-zinc-900/70 border-zinc-800 col-span-1 flex flex-col">
       <CardContent className="p-0">
         {/* Profile Header - Improved mobile layout */}
         <div className="bg-gradient-to-r from-zinc-800/50 to-zinc-900/50 p-4 sm:p-6 flex flex-col items-center border-b border-zinc-800">
@@ -50,6 +50,8 @@ export function EnhancedProfile({
                 src={personalInfo.avatar || "/placeholder.svg"}
                 alt={personalInfo.name}
                 fill
+                priority
+                sizes="(max-width: 640px) 40vw, 200px"
                 className="object-cover"
               />
             </div>

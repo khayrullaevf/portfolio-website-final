@@ -1,36 +1,50 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useEffect, useRef } from "react"
 
 export function ScrollProgressIndicator() {
-  const [scrollProgress, setScrollProgress] = useState(0)
+  const barRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    let frame = 0
+
+    // Write the width straight to the DOM instead of through state, so
+    // scrolling never triggers a React re-render.
     const updateScrollProgress = () => {
-      // Calculate how far down the page the user has scrolled
-      const scrollTop = window.scrollY
+      frame = 0
+      const bar = barRef.current
+      if (!bar) return
+
       const docHeight = document.documentElement.scrollHeight - window.innerHeight
-      const scrollPercent = scrollTop / docHeight
-      setScrollProgress(scrollPercent)
+      const percent = docHeight > 0 ? (window.scrollY / docHeight) * 100 : 0
+
+      bar.style.width = `${percent}%`
+      bar.setAttribute("aria-valuenow", String(Math.round(percent)))
     }
 
-    // Add scroll event listener
-    window.addEventListener("scroll", updateScrollProgress)
+    const onScroll = () => {
+      if (frame) return
+      frame = requestAnimationFrame(updateScrollProgress)
+    }
 
-    // Initial calculation
+    window.addEventListener("scroll", onScroll, { passive: true })
+    window.addEventListener("resize", onScroll, { passive: true })
     updateScrollProgress()
 
-    // Clean up event listener
-    return () => window.removeEventListener("scroll", updateScrollProgress)
+    return () => {
+      if (frame) cancelAnimationFrame(frame)
+      window.removeEventListener("scroll", onScroll)
+      window.removeEventListener("resize", onScroll)
+    }
   }, [])
 
   return (
     <div className="fixed top-0 left-0 right-0 h-1 bg-zinc-800 z-50">
       <div
-        className="h-full bg-gradient-to-r from-cyan-500 to-blue-500"
-        style={{ width: `${scrollProgress * 100}%`, transition: "width 0.1s" }}
+        ref={barRef}
+        className="h-full w-0 bg-gradient-to-r from-cyan-500 to-blue-500"
         role="progressbar"
-        aria-valuenow={scrollProgress * 100}
+        aria-valuenow={0}
         aria-valuemin={0}
         aria-valuemax={100}
         aria-label="Page scroll progress"

@@ -84,7 +84,7 @@ function SkillProgressBar({ skill, delay, animate }: SkillProgressBarProps) {
   }, [animate, skill.level, delay])
 
   return (
-    <div className="bg-zinc-800/50 rounded-lg p-4 backdrop-blur-sm border border-zinc-700/50 hover:border-cyan-500/30 transition-all duration-300">
+    <div className="bg-zinc-800/50 rounded-lg p-4 border border-zinc-700/50 hover:border-cyan-500/30 transition-all duration-300">
       <div className="flex justify-between items-center mb-3">
         <div className="flex-1">
           <h4 className="font-medium text-white text-sm">{skill.name}</h4>

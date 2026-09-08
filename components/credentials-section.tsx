@@ -39,7 +39,7 @@ export function CredentialsSection({
   };
 
   return (
-    <Card className="bg-zinc-900/70 border-zinc-800 backdrop-blur-sm">
+    <Card className="bg-zinc-900/70 border-zinc-800">
       <CardContent className="p-4 sm:p-6">
         <div className="flex items-center mb-4 sm:mb-6">
           <Award className="w-5 h-5 mr-2 text-cyan-400" />
@@ -68,6 +68,7 @@ export function CredentialsSection({
                               src={cert.logo || "/placeholder.svg"}
                               alt={cert.issuer}
                               fill
+                              sizes="40px"
                               className="object-contain p-1"
                             />
                           </div>
@@ -123,6 +124,7 @@ export function CredentialsSection({
                           src={edu.logo || "/placeholder.svg"}
                           alt={edu.institution}
                           fill
+                          sizes="40px"
                           className="object-contain p-1"
                         />
                       </div>
