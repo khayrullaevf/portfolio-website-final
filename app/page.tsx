@@ -17,6 +17,8 @@ import { PortfolioHeader } from "@/components/portfolio-header";
 import { ContactSection } from "@/components/contact-section";
 import { SkillsProgressSection } from "@/components/skills-progress-section";
 import { InteractiveTimeline } from "@/components/interactive-timeline";
+import { CommandPalette } from "@/components/command-palette";
+import { SiteFooter } from "@/components/site-footer";
 
 export const revalidate = 60;
 
@@ -102,14 +104,22 @@ export default async function Home() {
           </div>
         </div>
 
-        {/* Footer */}
-        <div className="mt-8 sm:mt-12 py-4 sm:py-6 text-center text-xs sm:text-sm text-zinc-500">
-          <p>
-            © {new Date().getFullYear()} Fazliddin Khayrullaev. All rights
-            reserved.
-          </p>
-        </div>
+        <SiteFooter name={personalInfo.name} email={personalInfo.email} />
       </div>
+
+      <CommandPalette
+        projects={projects.map((p) => ({
+          slug: p.slug,
+          title: p.title,
+          category: p.category,
+        }))}
+        email={personalInfo.email}
+        cvUrl={personalInfo.cvUrl}
+        social={personalInfo.social.map((s) => ({
+          platform: s.platform,
+          url: s.url,
+        }))}
+      />
 
       {/* Scroll to Top Button */}
       <EnhancedScrollIndicator />

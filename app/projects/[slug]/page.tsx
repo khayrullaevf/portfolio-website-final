@@ -9,6 +9,8 @@ import { notFound } from "next/navigation"
 import { EnhancedScrollIndicator } from "@/components/enhanced-scroll-indicator"
 import { AnimatedSection } from "@/components/animated-section"
 import { PortfolioHeader } from "@/components/portfolio-header"
+import { CommandPalette } from "@/components/command-palette"
+import { SiteFooter } from "@/components/site-footer"
 
 export const revalidate = 60
 
@@ -30,9 +32,10 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
     notFound()
   }
 
-  const [relatedProjects, personalInfo] = await Promise.all([
+  const [relatedProjects, personalInfo, allProjects] = await Promise.all([
     getRelatedProjects(params.slug),
     getPersonalInfo(),
+    getAllProjects(),
   ])
 
   return (
@@ -226,15 +229,22 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           </div>
         </div>
 
-        {/* Footer */}
-        <AnimatedSection
-          animation="fade-in"
-          delay={500}
-          className="mt-8 sm:mt-12 py-4 sm:py-6 text-center text-xs sm:text-sm text-zinc-500"
-        >
-          <p>© {new Date().getFullYear()} {personalInfo.name}. All rights reserved.</p>
-        </AnimatedSection>
+        <SiteFooter name={personalInfo.name} email={personalInfo.email} />
       </div>
+
+      <CommandPalette
+        projects={allProjects.map((p) => ({
+          slug: p.slug,
+          title: p.title,
+          category: p.category,
+        }))}
+        email={personalInfo.email}
+        cvUrl={personalInfo.cvUrl}
+        social={personalInfo.social.map((s) => ({
+          platform: s.platform,
+          url: s.url,
+        }))}
+      />
 
       {/* Scroll to Top Button */}
       <EnhancedScrollIndicator />
