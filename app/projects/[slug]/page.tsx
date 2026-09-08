@@ -1,28 +1,75 @@
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowLeft, ExternalLink, Github } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { SkillTag } from "@/components/skill-tag"
-import { getAllProjects, getProjectBySlug, getRelatedProjects, getPersonalInfo } from "@/lib/data"
 import { notFound } from "next/navigation"
-import { EnhancedScrollIndicator } from "@/components/enhanced-scroll-indicator"
-import { AnimatedSection } from "@/components/animated-section"
+import { ArrowLeft, ArrowUpRight, ExternalLink, Github } from "lucide-react"
+import {
+  getAllProjects,
+  getProjectBySlug,
+  getRelatedProjects,
+  getPersonalInfo,
+} from "@/lib/data"
 import { PortfolioHeader } from "@/components/portfolio-header"
 import { CommandPalette } from "@/components/command-palette"
 import { SiteFooter } from "@/components/site-footer"
+import { SkillTag } from "@/components/skill-tag"
 
 export const revalidate = 60
 
 interface ProjectPageProps {
-  params: {
-    slug: string
-  }
+  params: { slug: string }
 }
 
 export async function generateStaticParams() {
   const projects = await getAllProjects()
   return projects.map((project) => ({ slug: project.slug }))
+}
+
+export async function generateMetadata({ params }: ProjectPageProps) {
+  const project = await getProjectBySlug(params.slug)
+  if (!project) return {}
+
+  return {
+    title: project.title,
+    description: project.shortDescription,
+    openGraph: {
+      title: project.title,
+      description: project.shortDescription,
+      images: project.coverImage ? [{ url: project.coverImage }] : undefined,
+    },
+  }
+}
+
+/** A titled block that renders nothing when it has nothing to say. */
+function Block({
+  label,
+  children,
+}: {
+  label: string
+  children: React.ReactNode
+}) {
+  return (
+    <section className="reveal border-t border-border pt-10">
+      <h2 className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+        {label}
+      </h2>
+      <div className="mt-6">{children}</div>
+    </section>
+  )
+}
+
+function Points({ items }: { items: string[] }) {
+  return (
+    <ul className="divide-y divide-border border-y border-border">
+      {items.map((item, index) => (
+        <li key={index} className="grid gap-3 py-4 md:grid-cols-[2rem_1fr] md:gap-6">
+          <span className="font-mono text-[11px] text-muted-foreground md:pt-1">
+            {String(index + 1).padStart(2, "0")}
+          </span>
+          <p className="max-w-measure text-pretty leading-relaxed">{item}</p>
+        </li>
+      ))}
+    </ul>
+  )
 }
 
 export default async function ProjectPage({ params }: ProjectPageProps) {
@@ -38,216 +85,232 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
     getAllProjects(),
   ])
 
-  return (
-    <main className="min-h-screen bg-black text-white">
-      {/* Background Grid Pattern */}
-      <div className="fixed inset-0 bg-[radial-gradient(#333_1px,transparent_1px)] [background-size:20px_20px] opacity-20 z-0"></div>
+  const meta = [
+    project.role && { label: "Role", value: project.role },
+    project.timeline && { label: "Timeline", value: project.timeline },
+    { label: "Client", value: project.client || "Personal project" },
+    project.year && { label: "Year", value: project.year },
+  ].filter(Boolean) as { label: string; value: string }[]
 
-      {/* Header */}
+  return (
+    <>
       <PortfolioHeader personalInfo={personalInfo} />
 
-      <div className="relative z-10 container mx-auto p-3 sm:p-4 pt-20 sm:pt-24 pb-6 sm:pb-8">
-        {/* Back Button */}
-        <AnimatedSection animation="fade-in">
+      <main id="main" className="grain relative mx-auto max-w-3xl px-5 sm:px-6">
+        <div className="pt-24">
           <Link
-            href="/"
-            className="inline-flex items-center text-xs sm:text-sm text-zinc-400 hover:text-white mb-4 sm:mb-6 transition-colors"
+            href="/#projects"
+            className="inline-flex items-center gap-2 rounded-sm font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground outline-none transition-colors duration-fast ease-smooth hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 focus-visible:ring-offset-background"
           >
-            <ArrowLeft className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
-            Back to Portfolio
+            <ArrowLeft className="h-3.5 w-3.5" aria-hidden />
+            All work
           </Link>
-        </AnimatedSection>
+        </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
-          {/* Project Header */}
-          <AnimatedSection animation="fade-up" className="lg:col-span-3">
-            <Card className="bg-zinc-900/70 border-zinc-800 overflow-hidden">
-              <div className="relative h-48 sm:h-64 md:h-80 w-full">
-                <Image
-                  src={project.coverImage || "/placeholder.svg"}
-                  alt={project.title}
-                  fill
-                  priority
-                  sizes="(max-width: 1024px) 100vw, 1200px"
-                  className="object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent"></div>
-                <div className="absolute bottom-0 left-0 p-4 sm:p-6">
-                  <div className="text-xs sm:text-sm text-cyan-400 mb-1 sm:mb-2">{project.category}</div>
-                  <h1 className="text-xl sm:text-3xl md:text-4xl font-bold">{project.title}</h1>
-                  <p className="text-sm text-zinc-400 mt-1 sm:mt-2 max-w-2xl">{project.shortDescription}</p>
+        <header className="pb-14 pt-10">
+          {project.category && (
+            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+              {project.category}
+            </p>
+          )}
+
+          <h1 className="mt-4 text-balance font-display text-display-md">
+            {project.title}
+          </h1>
+
+          {project.shortDescription && (
+            <p className="mt-6 max-w-measure text-pretty text-lg leading-relaxed text-muted-foreground">
+              {project.shortDescription}
+            </p>
+          )}
+
+          {meta.length > 0 && (
+            <dl className="mt-10 grid grid-cols-2 gap-6 border-y border-border py-6 sm:grid-cols-4">
+              {meta.map((item) => (
+                <div key={item.label}>
+                  <dt className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
+                    {item.label}
+                  </dt>
+                  <dd className="mt-1.5 text-sm">{item.value}</dd>
                 </div>
+              ))}
+            </dl>
+          )}
+        </header>
+
+        {/* Paired with the project card's [data-vt] on the home page. Unique on
+            this page, which is what makes the morph fire at all. */}
+        <div
+          className="relative aspect-[16/10] w-full overflow-hidden border border-border bg-card"
+          style={{ viewTransitionName: `project-cover-${project.slug}` }}
+        >
+          <Image
+            src={project.coverImage || project.thumbnailImage || "/placeholder.svg"}
+            alt=""
+            fill
+            priority
+            sizes="(max-width: 768px) 100vw, 768px"
+            className="object-cover"
+          />
+        </div>
+
+        <div className="space-y-16 py-16">
+          {project.problem && (
+            <Block label="Problem">
+              <p className="max-w-measure text-pretty leading-relaxed">
+                {project.problem}
+              </p>
+            </Block>
+          )}
+
+          {project.approach.length > 0 && (
+            <Block label="Approach">
+              <Points items={project.approach} />
+            </Block>
+          )}
+
+          {project.tradeoffs.length > 0 && (
+            <Block label="Tradeoffs">
+              <Points items={project.tradeoffs} />
+            </Block>
+          )}
+
+          {project.impact.length > 0 && (
+            <Block label="Impact">
+              <Points items={project.impact} />
+            </Block>
+          )}
+
+          {project.description.length > 0 && (
+            <Block label="Overview">
+              <div className="max-w-measure space-y-4 text-pretty leading-relaxed text-muted-foreground">
+                {project.description.map((paragraph, index) => (
+                  <p key={index}>{paragraph}</p>
+                ))}
               </div>
-            </Card>
-          </AnimatedSection>
+            </Block>
+          )}
 
-          {/* Project Content */}
-          <div className="lg:col-span-2 space-y-4 sm:space-y-6">
-            <AnimatedSection animation="fade-up" delay={100}>
-              <Card className="bg-zinc-900/70 border-zinc-800">
-                <CardContent className="p-4 sm:p-6">
-                  <h2 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4">Project Overview</h2>
-                  <div className="space-y-3 sm:space-y-4 text-sm sm:text-base text-zinc-300">
-                    {project.description.map((paragraph, index) => (
-                      <p key={index}>{paragraph}</p>
-                    ))}
-                  </div>
+          {project.features.length > 0 && (
+            <Block label="What it does">
+              <ul className="max-w-measure space-y-3">
+                {project.features.map((feature, index) => (
+                  <li key={index} className="flex gap-3 leading-relaxed">
+                    <span className="mt-2.5 h-1 w-1 shrink-0 rounded-full bg-sand" aria-hidden />
+                    {feature}
+                  </li>
+                ))}
+              </ul>
+            </Block>
+          )}
 
-                  <AnimatedSection animation="fade-up" delay={200}>
-                    <h3 className="text-base sm:text-lg font-bold mt-6 sm:mt-8 mb-2 sm:mb-3">Key Features</h3>
-                    <ul className="list-disc pl-5 space-y-1 sm:space-y-2 text-sm sm:text-base text-zinc-300">
-                      {project.features.map((feature, index) => (
-                        <li key={index}>{feature}</li>
-                      ))}
-                    </ul>
-                  </AnimatedSection>
-
-                  <AnimatedSection animation="fade-up" delay={300}>
-                    <h3 className="text-base sm:text-lg font-bold mt-6 sm:mt-8 mb-2 sm:mb-3">Technologies Used</h3>
-                    <div className="flex flex-wrap gap-2 mb-4 sm:mb-6">
-                      {project.technologies.map((tech, index) => (
-                        <SkillTag key={index}>{tech}</SkillTag>
-                      ))}
+          {project.gallery && project.gallery.length > 0 && (
+            <Block label="Gallery">
+              <div className="space-y-8">
+                {project.gallery.map((image, index) => (
+                  <figure key={index}>
+                    <div className="relative aspect-[16/10] w-full overflow-hidden border border-border bg-card">
+                      <Image
+                        src={image.url || "/placeholder.svg"}
+                        alt={image.caption || ""}
+                        fill
+                        sizes="(max-width: 768px) 100vw, 768px"
+                        className="object-cover"
+                      />
                     </div>
-                  </AnimatedSection>
+                    {image.caption && (
+                      <figcaption className="mt-3 font-mono text-[11px] text-muted-foreground">
+                        {image.caption}
+                      </figcaption>
+                    )}
+                  </figure>
+                ))}
+              </div>
+            </Block>
+          )}
 
-                  <AnimatedSection animation="fade-up" delay={400}>
-                    <div className="flex flex-wrap gap-2 sm:gap-3 mt-6 sm:mt-8">
-                      {project.liveUrl && (
-                        <Button
-                          asChild
-                          size="sm"
-                          className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-xs sm:text-sm"
-                        >
-                          <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
-                            <ExternalLink className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
-                            View Live Project
-                          </a>
-                        </Button>
-                      )}
-                      {project.githubUrl && (
-                        <Button asChild variant="outline" size="sm" className="text-xs sm:text-sm">
-                          <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
-                            <Github className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
-                            View Source Code
-                          </a>
-                        </Button>
-                      )}
-                    </div>
-                  </AnimatedSection>
-                </CardContent>
-              </Card>
-            </AnimatedSection>
+          {project.technologies.length > 0 && (
+            <Block label="Stack">
+              <div className="flex flex-wrap gap-2">
+                {project.technologies.map((tech) => (
+                  <SkillTag key={tech}>{tech}</SkillTag>
+                ))}
+              </div>
+            </Block>
+          )}
 
-            {/* Project Gallery */}
-            {project.gallery && project.gallery.length > 0 && (
-              <AnimatedSection animation="fade-up" delay={200}>
-                <Card className="bg-zinc-900/70 border-zinc-800">
-                  <CardContent className="p-4 sm:p-6">
-                    <h2 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4">Project Gallery</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
-                      {project.gallery.map((image, index) => (
-                        <AnimatedSection key={index} animation="zoom-in" delay={100 * (index + 1)}>
-                          <div className="relative h-40 sm:h-48 rounded-lg overflow-hidden border border-zinc-800">
-                            <Image
-                              src={image.url || "/placeholder.svg"}
-                              alt={image.caption || `Gallery image ${index + 1}`}
-                              fill
-                              sizes="(max-width: 768px) 100vw, 400px"
-                              className="object-cover"
-                            />
-                          </div>
-                        </AnimatedSection>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-              </AnimatedSection>
-            )}
-          </div>
+          {(project.liveUrl || project.githubUrl) && (
+            <Block label="Links">
+              <div className="flex flex-wrap gap-x-8 gap-y-4">
+                {project.liveUrl && (
+                  <a
+                    href={project.liveUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-2 rounded-sm border-b border-sand/40 pb-1 text-sm text-sand outline-none transition-colors duration-fast ease-smooth hover:border-sand focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 focus-visible:ring-offset-background"
+                  >
+                    <ExternalLink className="h-4 w-4" aria-hidden />
+                    Live site
+                  </a>
+                )}
+                {project.githubUrl && (
+                  <a
+                    href={project.githubUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-2 rounded-sm border-b border-border pb-1 text-sm outline-none transition-colors duration-fast ease-smooth hover:border-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 focus-visible:ring-offset-background"
+                  >
+                    <Github className="h-4 w-4" aria-hidden />
+                    Source code
+                  </a>
+                )}
+              </div>
+            </Block>
+          )}
 
-          {/* Project Sidebar */}
-          <div className="space-y-4 sm:space-y-6">
-            <AnimatedSection animation="slide-left" delay={100}>
-              <Card className="bg-zinc-900/70 border-zinc-800">
-                <CardContent className="p-4 sm:p-6">
-                  <h2 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4">Project Details</h2>
-
-                  <div className="space-y-3 sm:space-y-4">
-                    <div>
-                      <h3 className="text-xs sm:text-sm font-medium text-zinc-400">Client</h3>
-                      <p className="text-sm sm:text-base">{project.client || "Personal Project"}</p>
-                    </div>
-
-                    <div>
-                      <h3 className="text-xs sm:text-sm font-medium text-zinc-400">Timeline</h3>
-                      <p className="text-sm sm:text-base">{project.timeline}</p>
-                    </div>
-
-                    <div>
-                      <h3 className="text-xs sm:text-sm font-medium text-zinc-400">Role</h3>
-                      <p className="text-sm sm:text-base">{project.role}</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </AnimatedSection>
-
-            {/* Next Projects */}
-            <AnimatedSection animation="slide-left" delay={200}>
-              <Card className="bg-zinc-900/70 border-zinc-800">
-                <CardContent className="p-4 sm:p-6">
-                  <h2 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4">More Projects</h2>
-                  <div className="space-y-3 sm:space-y-4">
-                    {relatedProjects.map((related, index) => (
-                        <AnimatedSection key={index} animation="fade-up" delay={100 * (index + 1)}>
-                          <Link href={`/projects/${related.slug}`} className="block group">
-                            <div className="flex items-center gap-2 sm:gap-3">
-                              <div className="relative w-12 h-12 sm:w-16 sm:h-16 rounded overflow-hidden flex-shrink-0">
-                                <Image
-                                  src={related.image || "/placeholder.svg"}
-                                  alt={related.title}
-                                  fill
-                                  sizes="64px"
-                                  className="object-cover"
-                                />
-                              </div>
-                              <div>
-                                <h3 className="text-sm sm:text-base font-medium group-hover:text-cyan-400 transition-colors">
-                                  {related.title}
-                                </h3>
-                                <p className="text-xs text-zinc-400">{related.category}</p>
-                              </div>
-                            </div>
-                          </Link>
-                        </AnimatedSection>
-                      ))}
-                  </div>
-                </CardContent>
-              </Card>
-            </AnimatedSection>
-          </div>
+          {relatedProjects.length > 0 && (
+            <Block label="More work">
+              <ul className="divide-y divide-border border-y border-border">
+                {relatedProjects.map((related) => (
+                  <li key={related.slug}>
+                    <Link
+                      href={`/projects/${related.slug}`}
+                      className="group flex items-baseline justify-between gap-4 rounded-sm py-4 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                    >
+                      <span className="min-w-0 truncate transition-colors duration-fast ease-smooth group-hover:text-sand">
+                        {related.title}
+                      </span>
+                      <span className="flex shrink-0 items-center gap-2 font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">
+                        {related.category}
+                        <ArrowUpRight
+                          className="h-3.5 w-3.5 transition-transform duration-fast ease-smooth group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                          aria-hidden
+                        />
+                      </span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </Block>
+          )}
         </div>
 
         <SiteFooter name={personalInfo.name} email={personalInfo.email} />
-      </div>
+      </main>
 
       <CommandPalette
-        projects={allProjects.map((p) => ({
-          slug: p.slug,
-          title: p.title,
-          category: p.category,
+        projects={allProjects.map((item) => ({
+          slug: item.slug,
+          title: item.title,
+          category: item.category,
         }))}
         email={personalInfo.email}
         cvUrl={personalInfo.cvUrl}
-        social={personalInfo.social.map((s) => ({
-          platform: s.platform,
-          url: s.url,
+        social={personalInfo.social.map((link) => ({
+          platform: link.platform,
+          url: link.url,
         }))}
       />
-
-      {/* Scroll to Top Button */}
-      <EnhancedScrollIndicator />
-    </main>
+    </>
   )
 }

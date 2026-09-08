@@ -112,6 +112,17 @@
     }
   }
 
+  /*
+    View transitions (components/view-transition.tsx). Only the page cross-fade
+    is styled here — the named cover image morphs on its own, and the whole
+    thing is skipped under reduced motion by the link itself.
+  */
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: var(--dur-base);
+    animation-timing-function: var(--ease);
+  }
+
   /* Skip link: visually hidden until it takes focus. */
   .skip-link {
     @apply absolute left-4 top-4 z-[100] -translate-y-24 rounded-sm bg-foreground px-4 py-2 text-sm font-medium text-background transition-transform;

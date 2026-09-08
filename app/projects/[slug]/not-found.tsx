@@ -1,25 +1,30 @@
 import Link from "next/link"
 import { ArrowLeft } from "lucide-react"
-import { Button } from "@/components/ui/button"
 
 export default function ProjectNotFound() {
   return (
-    <div className="min-h-screen bg-black text-white flex items-center justify-center">
-      <div className="text-center space-y-6 p-6">
-        <div className="w-20 h-20 mx-auto rounded-full bg-zinc-800 flex items-center justify-center">
-          <span className="text-4xl">🔍</span>
-        </div>
-        <h1 className="text-3xl font-bold">Project Not Found</h1>
-        <p className="text-zinc-400 max-w-md mx-auto">
-          The project you're looking for doesn't exist or has been moved.
-        </p>
-        <Button asChild className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600">
-          <Link href="/">
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Portfolio
-          </Link>
-        </Button>
-      </div>
-    </div>
+    <main
+      id="main"
+      className="mx-auto flex min-h-screen max-w-3xl flex-col justify-center px-5 sm:px-6"
+    >
+      <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+        404
+      </p>
+
+      <h1 className="mt-4 font-display text-display-md">Project not found</h1>
+
+      <p className="mt-6 max-w-measure text-pretty leading-relaxed text-muted-foreground">
+        This case study doesn&apos;t exist, or it has moved since you last saw
+        the link.
+      </p>
+
+      <Link
+        href="/#projects"
+        className="mt-10 inline-flex w-fit items-center gap-2 rounded-sm border-b border-sand/40 pb-1 text-sm text-sand outline-none transition-colors duration-fast ease-smooth hover:border-sand focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 focus-visible:ring-offset-background"
+      >
+        <ArrowLeft className="h-4 w-4" aria-hidden />
+        All work
+      </Link>
+    </main>
   )
 }

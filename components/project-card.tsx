@@ -1,6 +1,6 @@
 import Image from "next/image";
-import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
+import { TransitionLink } from "@/components/view-transition";
 import type { Project } from "@/lib/projects";
 
 /**
@@ -14,11 +14,17 @@ export function ProjectCard({ project }: { project: Project }) {
   const meta = [project.category, project.year].filter(Boolean).join(" · ");
 
   return (
-    <Link
+    <TransitionLink
       href={`/projects/${project.slug}`}
+      name={`project-cover-${project.slug}`}
       className="group block rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 focus-visible:ring-offset-background"
     >
-      <div className="relative aspect-[16/10] w-full overflow-hidden border border-border bg-card">
+      {/* data-vt is what TransitionLink names on click, so the cover morphs
+          into the case study's hero image. */}
+      <div
+        data-vt
+        className="relative aspect-[16/10] w-full overflow-hidden border border-border bg-card"
+      >
         <Image
           src={project.coverImage || project.thumbnailImage || "/placeholder.svg"}
           alt=""
@@ -57,6 +63,6 @@ export function ProjectCard({ project }: { project: Project }) {
           aria-hidden
         />
       </span>
-    </Link>
+    </TransitionLink>
   );
 }
