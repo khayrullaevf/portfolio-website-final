@@ -54,9 +54,9 @@ export default async function AdminHomePage() {
           const Icon = card.icon
           return (
             <Link key={card.href} href={card.href} className="group">
-              <Card className="h-full border-zinc-800 bg-zinc-900/70 transition-colors group-hover:border-cyan-500/40 group-hover:bg-zinc-900">
+              <Card className="h-full border-border bg-card transition-colors duration-fast ease-smooth group-hover:border-sand/40">
                 <CardContent className="flex items-center gap-4 p-4">
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-cyan-500/10 text-cyan-400">
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-sm bg-foreground/5 text-sand">
                     <Icon className="h-5 w-5" />
                   </span>
                   <div className="min-w-0 flex-1">
@@ -65,7 +65,7 @@ export default async function AdminHomePage() {
                       {card.count} ta {card.unit}
                     </p>
                   </div>
-                  <ArrowRight className="h-4 w-4 shrink-0 text-zinc-600 transition-colors group-hover:text-cyan-400" />
+                  <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground transition-colors duration-fast ease-smooth group-hover:text-sand" />
                 </CardContent>
               </Card>
             </Link>

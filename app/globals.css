@@ -2,38 +2,136 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+  Editorial Engineer design system.
+
+  One ground, one ink, one warm accent — no gradients. Every colour the app
+  paints comes from a token here, so the public site and /admin (which share
+  this stylesheet) move together. The literal `cyan-*` classes that used to be
+  scattered through both are gone; if you find yourself reaching for a raw
+  palette class, add a token instead.
+*/
 :root {
-  --background: 0 0% 0%;
-  --foreground: 0 0% 100%;
-  --card: 240 10% 4%;
-  --card-foreground: 0 0% 100%;
-  --popover: 240 10% 4%;
-  --popover-foreground: 0 0% 100%;
-  --primary: 186 100% 50%;
-  --primary-foreground: 0 0% 0%;
-  --secondary: 240 5% 10%;
-  --secondary-foreground: 0 0% 100%;
-  --muted: 240 5% 20%;
-  --muted-foreground: 240 5% 65%;
-  --accent: 240 5% 15%;
-  --accent-foreground: 0 0% 100%;
-  --destructive: 0 100% 50%;
-  --destructive-foreground: 0 0% 100%;
-  --border: 240 5% 26%;
-  --input: 240 5% 26%;
-  --ring: 186 100% 50%;
+  /* Ground and ink */
+  --background: 240 5% 4%; /* #0A0A0B */
+  --foreground: 60 3% 93%; /* #EDEDEC */
+
+  /* Raised surfaces. Kept close to the ground — depth comes from hairlines,
+     not from stacking lighter and lighter panels. */
+  --card: 240 5% 7%;
+  --card-foreground: 60 3% 93%;
+  --popover: 240 5% 7%;
+  --popover-foreground: 60 3% 93%;
+
+  /* The single accent: a warm sand. Status dots, focus rings, one CTA. */
+  --sand: 38 55% 65%;
+  --primary: 38 55% 65%;
+  --primary-foreground: 240 6% 5%;
+  --ring: 38 55% 65%;
+
+  /* Neutral interaction surfaces (shadcn semantics: `accent` is the hover
+     wash for ghost/outline controls, NOT the brand colour). */
+  --secondary: 240 5% 11%;
+  --secondary-foreground: 60 3% 93%;
+  --accent: 240 5% 12%;
+  --accent-foreground: 60 3% 93%;
+  --muted: 240 5% 12%;
+  --muted-foreground: 60 3% 53%; /* #8A8A85 */
+
+  --destructive: 0 62% 52%;
+  --destructive-foreground: 60 3% 96%;
+
+  /* Hairlines. Borders do the structural work that cards used to. */
+  --border: 240 5% 13%; /* #1F1F22 */
+  --input: 240 5% 17%;
+
   /* tailwind.config.ts maps borderRadius lg/md/sm to this. Without it every
      rounded-lg/md/sm in the app emits an invalid value and renders square. */
-  --radius: 0.5rem;
+  --radius: 0.25rem;
+
+  /* Motion. Three durations and one easing — anything outside this set is a
+     bug, not a decision. */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-fast: 150ms;
+  --dur-base: 250ms;
+  --dur-slow: 400ms;
 }
 
-html {
-  scroll-behavior: smooth;
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "kern", "liga", "calt";
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Smooth scrolling is a motion effect like any other. */
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  /* The fixed header is ~4rem; anchor jumps must clear it. */
+  :target {
+    scroll-margin-top: 6rem;
+  }
+
+  /* Instrument Serif ships weight 400 only — never `font-bold` a display
+     string, it renders faux-bold. Hierarchy comes from size and leading. */
+  .font-display {
+    font-weight: 400;
+  }
 }
 
-body {
-  background-color: black;
-  color: white;
+@layer components {
+  /*
+    Scroll-driven reveal.
+
+    The base state IS the finished state. Scroll-driven animations sit around
+    84% global support (Firefox stable still keeps them behind a flag), so an
+    `opacity: 0` base would blank the page for everyone else. Progressive
+    enhancement only — never a dependency.
+  */
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .reveal {
+        animation: reveal linear both;
+        animation-timeline: view();
+        animation-range: entry 5% cover 22%;
+      }
+    }
+  }
+
+  /* Skip link: visually hidden until it takes focus. */
+  .skip-link {
+    @apply absolute left-4 top-4 z-[100] -translate-y-24 rounded-sm bg-foreground px-4 py-2 text-sm font-medium text-background transition-transform;
+    transition-duration: var(--dur-fast);
+  }
+
+  .skip-link:focus-visible {
+    @apply translate-y-0;
+  }
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 12px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 @layer utilities {
@@ -41,18 +139,27 @@ body {
     text-wrap: balance;
   }
 
-  /* Custom Scrollbar */
+  .text-pretty {
+    text-wrap: pretty;
+  }
+
+  /*
+    Paper grain. Replaces the old dot-grid overlay: an inline SVG turbulence
+    at very low opacity, so it costs no request and never tiles visibly.
+  */
+  .grain::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* Custom scrollbar, retuned to the hairline palette. */
   .scrollbar-thin {
     scrollbar-width: thin;
-  }
-
-  .scrollbar-thumb-zinc-700::-webkit-scrollbar-thumb {
-    background-color: #3f3f46;
-    border-radius: 3px;
-  }
-
-  .scrollbar-track-zinc-800\/50::-webkit-scrollbar-track {
-    background-color: rgba(39, 39, 42, 0.5);
   }
 
   ::-webkit-scrollbar {
@@ -61,41 +168,15 @@ body {
   }
 
   ::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.1);
+    background: hsl(var(--background));
   }
 
   ::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.2);
+    background: hsl(var(--border));
     border-radius: 3px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.3);
+    background: hsl(var(--input));
   }
-}
-
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
-}
-
-/* Add animation for glowing effects */
-@keyframes pulse-glow {
-  0%,
-  100% {
-    opacity: 0.8;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.05);
-  }
-}
-
-.animate-pulse-glow {
-  animation: pulse-glow 3s ease-in-out infinite;
 }

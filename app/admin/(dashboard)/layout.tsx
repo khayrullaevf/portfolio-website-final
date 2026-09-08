@@ -8,7 +8,7 @@ export default function AdminDashboardLayout({ children }: { children: React.Rea
       {/* Desktop sidebar. Hidden below md, where AdminMobileNav takes over. */}
       <aside className="hidden md:sticky md:top-0 md:flex md:h-screen md:w-60 md:shrink-0 md:flex-col border-r border-zinc-800 p-4">
         <div className="mb-6 flex items-center gap-2 px-3">
-          <span className="flex h-7 w-7 items-center justify-center rounded bg-cyan-500 text-sm font-bold text-black">
+          <span className="flex h-7 w-7 items-center justify-center rounded-sm bg-sand font-display text-base text-primary-foreground">
             F
           </span>
           <span className="text-sm font-semibold">Admin panel</span>

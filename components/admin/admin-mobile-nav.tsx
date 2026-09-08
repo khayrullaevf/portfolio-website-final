@@ -29,7 +29,7 @@ export function AdminMobileNav() {
         </SheetTrigger>
         <SheetContent side="left" className="p-4">
           <SheetTitle className="mb-4 flex items-center gap-2">
-            <span className="flex h-6 w-6 items-center justify-center rounded bg-cyan-500 text-xs font-bold text-black">
+            <span className="flex h-6 w-6 items-center justify-center rounded-sm bg-sand font-display text-sm text-primary-foreground">
               F
             </span>
             Admin panel

@@ -1,0 +1,50 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## Project
+
+Personal portfolio website for Fazliddin Khayrullaev, built with Next.js 14 (App Router) and TypeScript, backed by Supabase (Postgres + Auth + Storage). Package manager is pnpm (pnpm-lock.yaml present; yarn.lock also exists but is stale — prefer pnpm).
+
+## Commands
+
+```bash
+pnpm dev      # start dev server (http://localhost:3000)
+pnpm build    # production build
+pnpm start    # run production build
+pnpm lint     # next lint
+pnpm seed     # one-off: seed Supabase from scripts/seed-supabase.ts (requires SUPABASE_SERVICE_ROLE_KEY)
+```
+
+There is no test suite configured in this repo.
+
+Note: `next.config.mjs` sets `eslint.ignoreDuringBuilds: true` and `typescript.ignoreBuildErrors: true`, so `pnpm build` will succeed even with lint/type errors — don't rely on a clean build as a correctness signal; run `pnpm lint` and `tsc --noEmit` separately when verifying changes.
+
+Requires `.env.local` with `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY` (the last only needed for `pnpm seed`, never exposed client-side).
+
+## Architecture
+
+- **Single-page app**: [app/page.tsx](app/page.tsx) is an async Server Component that fetches all content from Supabase, then renders it as a stack of sections (header, profile, timeline, credentials, skills, projects, contact) composed from components in [components/](components/), passed down as props. There is no section-per-route split. `export const revalidate = 60` gives admin edits an ISR window instead of requiring a redeploy.
+- **Project detail pages**: [app/projects/[slug]/page.tsx](app/projects/[slug]/page.tsx) is the only other public route; `generateStaticParams` reads slugs from Supabase at build time.
+- **Content lives in Supabase, not in code**: [lib/data.ts](lib/data.ts) and [lib/projects.ts](lib/projects.ts) are the only places that query Supabase for public content — both export async functions (`getPersonalInfo`, `getAboutInfo`, `getExperienceInfo`, `getSkills`, `getCredentialsInfo`, `getMetaInfo`, `getAllProjects`, `getProjectBySlug`, `getRelatedProjects`). Components must not query Supabase directly; a Server Component (page or layout) fetches data and passes it down as props — several page-section components (`enhanced-profile`, `interactive-timeline`, `credentials-section`, `skills-progress-section`, `portfolio-header`, `contact-section`) are `"use client"` for animation/interaction but are purely presentational, taking their data as props rather than fetching it themselves. `getNavItems()` is the one exception that stays hardcoded (site structure/anchors, not editorial content).
+- **Admin CRUD panel** at `/admin` (route group [app/admin/(dashboard)/](app/admin/(dashboard)/), login at [app/admin/login/page.tsx](app/admin/login/page.tsx)) lets the single admin user edit every content table without a deploy:
+  - [middleware.ts](middleware.ts) protects everything under `/admin` except `/admin/login`, redirecting on `getSession()` — a local cookie read, deliberately **not** `getUser()`, which would put an HTTPS round trip to Supabase Auth in front of every navigation and prefetch. That makes the middleware a routing gate, not the security boundary: enforcement is RLS plus `requireAdminClient()` (which does call `getUser()`) in front of every mutation.
+  - Mutations go through Server Actions in [lib/actions/crud.ts](lib/actions/crud.ts) (`createRecord`/`updateRecord`/`deleteRecord`/`updateSingleton`), which allowlist mutable tables and call `revalidatePath` after every write. They **return** `ActionResult` (`{ ok } | { ok: false, message }`) rather than throwing, because a thrown Server Action error is redacted to a generic string in production and the admin UI could never show what actually failed; callers toast the message. [lib/actions/require-admin.ts](lib/actions/require-admin.ts) double-checks a session server-side (defense in depth beyond RLS + middleware).
+  - Most admin pages are thin wrappers around the generic [components/admin/resource-crud.tsx](components/admin/resource-crud.tsx) (list + dialog create/edit/delete) or [components/admin/singleton-form.tsx](components/admin/singleton-form.tsx) (single-row sections like personal info), driven by a `FieldConfig[]` describing each table's columns ([lib/admin/field.ts](lib/admin/field.ts)). Projects are the exception — they get dedicated full-page forms ([components/admin/project-form.tsx](components/admin/project-form.tsx), [lib/admin/project-fields.ts](lib/admin/project-fields.ts)) because of the nested gallery. To add a new admin-editable field, extend the relevant `FieldConfig[]` array and the matching Supabase column — the generic form/table UI picks it up automatically.
+  - A field's optional `list` role (`primary` | `secondary` | `meta` | `badge` | `thumb` | `swatch`) is what makes it appear in the list row, not just the edit form — omit it and the field stays form-only. Pages already `select("*")`, so surfacing another column in a row costs no extra query.
+  - Navigation lives in [lib/admin/nav.ts](lib/admin/nav.ts) (shared by the desktop sidebar, the mobile `Sheet` drawer in [components/admin/admin-mobile-nav.tsx](components/admin/admin-mobile-nav.tsx), and the dashboard cards). `app/admin/(dashboard)/loading.tsx` is load-bearing, not decoration: admin pages are dynamic (they read cookies), and the App Router only prefetches a dynamic route down to its nearest loading boundary — delete that file and every sidebar click becomes a cold blocking round trip again.
+  - File/image uploads go through [lib/actions/upload.ts](lib/actions/upload.ts) into the `portfolio` Supabase Storage bucket via [components/admin/image-upload-field.tsx](components/admin/image-upload-field.tsx).
+- **Supabase clients** ([lib/supabase/](lib/supabase/)): `public.ts` (anon key, no cookies — public pages/ISR), `server.ts` (cookie-aware, Server Components/Actions/middleware needing the admin session), `client.ts` (browser client, admin login/sign-out only).
+- **Database schema**: [supabase/migrations/0001_init.sql](supabase/migrations/0001_init.sql) — singleton tables (`personal_info`, `about_info`, `meta_info`, one fixed row each) plus list tables (`social_links`, `languages`, `experience`, `skills`, `certifications`, `education`, `projects`, `project_gallery`). RLS is on for every table: public read, writes restricted to `authenticated` (safe because only one Supabase Auth user exists for this project — no self-registration flow was built).
+- **UI kit**: [components/ui/](components/ui/) is shadcn/ui (Radix primitives + Tailwind), configured via [components.json](components.json) (style: default, baseColor: neutral, no prefix). Admin UI reuses the same primitives rather than a separate kit. Only the primitives actually in use are kept — re-add others with `pnpm dlx shadcn@latest add <name>`, but prefer building on what's installed: `sheet.tsx` and [components/admin/confirm-dialog.tsx](components/admin/confirm-dialog.tsx) are both built on `@radix-ui/react-dialog` rather than pulling in new packages. `hooks/use-toast.ts` is the single toast store — a second copy under `components/ui/` once made `<Toaster />` subscribe to a different store than `toast()` wrote to, so no toast ever appeared.
+- **Animation system**: [contexts/animation-context.tsx](contexts/animation-context.tsx) provides a global `AnimationProvider` (wraps the app in [app/layout.tsx](app/layout.tsx)) exposing tunable settings (`duration`, `delay`, `easing`, `intensity`, `enabled`, `preset`) consumed by animated components like `animated-section.tsx`.
+- **Styling**: Tailwind CSS ([tailwind.config.ts](tailwind.config.ts)) with `tailwindcss-animate`; dark theme is the default visual style (`bg-black text-white`). Path alias `@/*` maps to repo root ([tsconfig.json](tsconfig.json)).
+- **Images**: `next/image` optimization is on (AVIF/WebP). Two constraints follow from that: every `fill` image needs a `sizes` prop or it is served at full viewport width, and any new remote image host must be added to `images.remotePatterns` in [next.config.mjs](next.config.mjs) — the Supabase Storage host is already allowlisted, which is what makes admin-uploaded images work. Pre-migration project screenshots live as static files under [public/](public/) (referenced by their `/...` path in the DB rows) and have been pre-compressed to max 1600px wide; anything uploaded through the admin lands in Supabase Storage instead.
+- **Bundle size**: two rules, both learned the hard way.
+  - `lucide-react` must only ever be imported by name (`import { Github } from "lucide-react"`). A namespace import (`import * as LucideIcons`) — previously used in [components/social-links.tsx](components/social-links.tsx) to resolve icons from a DB string — defeats tree-shaking and drags the entire ~560 kB icon set into the first-load bundle. Icons chosen from the database go through the explicit `ICONS` allowlist map in that file.
+  - **Client Components must never import a value from [lib/data.ts](lib/data.ts)** (`import type` is fine). That module constructs a Supabase client, so a value import pulls all of `@supabase/supabase-js` (~80 kB gzipped) into the browser bundle. This is why `getNavItems()` lives in [lib/nav.ts](lib/nav.ts) — the header is a Client Component and used to import it from `lib/data`.
+- **Styling tokens**: `--radius` is defined in [app/globals.css](app/globals.css) and [tailwind.config.ts](tailwind.config.ts) maps `borderRadius.lg/md/sm` to it. If it goes missing, every `rounded-lg`/`md`/`sm` in the app silently renders square. `styles/globals.css` no longer exists — `app/globals.css` is the only stylesheet.
+
+## Adding a new project (case study)
+
+Use the admin panel (`/admin/projects/new`) rather than editing code — projects, including gallery images, are fully database-backed. `lib/projects.ts` only contains the query functions now, no hardcoded data.

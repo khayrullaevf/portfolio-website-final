@@ -47,10 +47,10 @@ export function ScrollProgressIndicator() {
   if (isAdmin) return null
 
   return (
-    <div className="fixed top-0 left-0 right-0 h-1 bg-zinc-800 z-50">
+    <div className="fixed top-0 left-0 right-0 h-0.5 bg-border z-50">
       <div
         ref={barRef}
-        className="h-full w-0 bg-gradient-to-r from-cyan-500 to-blue-500"
+        className="h-full w-0 bg-sand"
         role="progressbar"
         aria-valuenow={0}
         aria-valuemin={0}

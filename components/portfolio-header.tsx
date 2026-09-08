@@ -1,160 +1,166 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import Link from "next/link"
-import { Menu, X } from "lucide-react"
-import { cn } from "@/lib/utils"
-import { getNavItems } from "@/lib/nav"
-import type { getPersonalInfo } from "@/lib/data"
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { Menu, X } from "lucide-react";
+import { cn } from "@/lib/utils";
+// Never import from lib/data here: that module builds a Supabase client, and a
+// value import would pull @supabase/supabase-js (~80 kB gz) into this bundle.
+import { getNavItems } from "@/lib/nav";
+import type { getPersonalInfo } from "@/lib/data";
 
 export function PortfolioHeader({
   personalInfo,
 }: {
-  personalInfo: Awaited<ReturnType<typeof getPersonalInfo>>
+  personalInfo: Awaited<ReturnType<typeof getPersonalInfo>>;
 }) {
-  const [scrolled, setScrolled] = useState(false)
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [activeSection, setActiveSection] = useState("")
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("");
 
-  const navItems = getNavItems()
+  const navItems = getNavItems();
+
+  // A hairline appears once the page has moved. One cheap scroll listener,
+  // no layout reads beyond scrollY.
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Scroll-spy via IntersectionObserver rather than measuring every section on
+  // every scroll frame. The band keeps whichever section owns the upper third
+  // of the viewport marked as current.
+  useEffect(() => {
+    const ids = navItems
+      .filter((item) => item.href.startsWith("#"))
+      .map((item) => item.href.slice(1));
+
+    const sections = ids
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => el !== null);
+
+    if (sections.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+
+        if (visible[0]) setActiveSection(visible[0].target.id);
+      },
+      { rootMargin: "-20% 0px -70% 0px" }
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, [navItems]);
+
+  // Lock the page behind the mobile panel while it is open.
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [menuOpen]);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20)
+    if (!menuOpen) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setMenuOpen(false);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [menuOpen]);
 
-      // Determine active section based on scroll position
-      const sections = navItems.filter((item) => item.href.startsWith("#")).map((item) => item.href.substring(1))
-
-      // Find the current section in view
-      for (const section of sections.reverse()) {
-        // Check from bottom to top
-        const element = document.getElementById(section)
-        if (element) {
-          const rect = element.getBoundingClientRect()
-          if (rect.top <= 150) {
-            // If section is at or above 150px from viewport top
-            setActiveSection(section)
-            break
-          }
-        }
-      }
-
-      // If scrolled to top, set Home as active
-      if (window.scrollY < 100) {
-        setActiveSection("")
-      }
-    }
-
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [navItems])
-
-  const toggleMobileMenu = () => {
-    setMobileMenuOpen(!mobileMenuOpen)
-  }
+  const isCurrent = (href: string) =>
+    href === "/" ? activeSection === "" : activeSection === href.slice(1);
 
   return (
     <header
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-4",
-        scrolled ? "bg-zinc-900/90  shadow-md py-2" : "bg-transparent",
+        "fixed inset-x-0 top-0 z-50 border-b transition-colors duration-base ease-smooth",
+        scrolled
+          ? "border-border bg-background/80 backdrop-blur-md"
+          : "border-transparent bg-transparent"
       )}
     >
-      <div className="container mx-auto px-4 flex items-center justify-between">
-        {/* Logo/Name */}
-        <Link href="/" className="flex items-center group">
-          <div className="relative font-bold text-xl transition-transform duration-300 group-hover:scale-105">
-            <span className="text-white relative z-10">{personalInfo.name}</span>
-            <span className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-blue-500 opacity-80 bg-clip-text text-transparent pointer-events-none"></span>
-            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-cyan-400 to-blue-500 transition-all duration-300 group-hover:w-full"></span>
-          </div>
-          <span className="text-zinc-100 text-sm ml-2 hidden sm:inline-block transition-all duration-300 group-hover:text-white">
-            / {personalInfo.title}
-          </span>
+      <div className="mx-auto flex h-16 max-w-3xl items-center justify-between px-5 sm:px-6">
+        <Link
+          href="/"
+          className="rounded-sm font-display text-lg leading-none tracking-tight outline-none transition-colors duration-fast ease-smooth hover:text-sand focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 focus-visible:ring-offset-background"
+        >
+          {personalInfo.name}
         </Link>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-1">
-          {navItems.map((item) => {
-            const isActive = item.href === "/" ? activeSection === "" : activeSection === item.href.substring(1)
-
-            return (
-              <Link
-                key={item.label}
-                href={item.href}
-                className={cn(
-                  "px-3 py-2 text-sm relative group transition-all duration-300",
-                  isActive ? "text-white" : "text-zinc-100 hover:text-white",
-                )}
-              >
-                <span className="relative z-10">{item.label}</span>
-
-                {/* Hover effect - subtle background glow */}
-                <span className="absolute inset-0 bg-cyan-500/0 rounded-md group-hover:bg-cyan-500/10 transition-all duration-300"></span>
-
-                {/* Hover effect - bottom border */}
-                <span
-                  className={cn(
-                    "absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-cyan-400 to-blue-500 transition-all duration-300 group-hover:w-4/5",
-                    isActive && "w-4/5",
-                  )}
-                ></span>
-              </Link>
-            )
-          })}
+        <nav className="hidden items-center gap-1 md:flex">
+          {navItems.map((item) => (
+            <Link
+              key={item.label}
+              href={item.href}
+              aria-current={isCurrent(item.href) ? "true" : undefined}
+              className={cn(
+                "rounded-sm px-2.5 py-1.5 font-mono text-xs uppercase tracking-[0.12em] outline-none transition-colors duration-fast ease-smooth focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+                isCurrent(item.href)
+                  ? "text-sand"
+                  : "text-muted-foreground hover:text-foreground"
+              )}
+            >
+              {item.label}
+            </Link>
+          ))}
         </nav>
 
-        {/* Mobile Menu Button */}
         <button
-          className="md:hidden text-zinc-100 hover:text-white transition-colors duration-300 relative overflow-hidden group"
-          onClick={toggleMobileMenu}
-          aria-label="Toggle menu"
+          type="button"
+          className="rounded-sm p-1 text-muted-foreground outline-none transition-colors duration-fast ease-smooth hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background md:hidden"
+          onClick={() => setMenuOpen(true)}
+          aria-expanded={menuOpen}
+          aria-label="Open menu"
         >
-          <span className="relative z-10">{mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}</span>
-          <span className="absolute inset-0 scale-0 rounded-full bg-zinc-700/50 group-hover:scale-100 transition-transform duration-300"></span>
+          <Menu size={20} />
         </button>
       </div>
 
-      {/* Mobile Navigation */}
+      {/* Mobile panel */}
       <div
         className={cn(
-          "fixed inset-0 bg-black/95 z-40 flex flex-col pt-20 px-4 md:hidden transition-all duration-500",
-          mobileMenuOpen ? "opacity-100 translate-x-0" : "opacity-0 translate-x-full pointer-events-none",
+          "fixed inset-0 z-50 flex flex-col bg-background transition-opacity duration-base ease-smooth md:hidden",
+          menuOpen ? "opacity-100" : "pointer-events-none opacity-0"
         )}
+        aria-hidden={!menuOpen}
       >
-        <nav className="flex flex-col space-y-4">
-          {navItems.map((item, index) => {
-            const isActive = item.href === "/" ? activeSection === "" : activeSection === item.href.substring(1)
+        <div className="flex h-16 items-center justify-between px-5">
+          <span className="font-display text-lg leading-none">
+            {personalInfo.name}
+          </span>
+          <button
+            type="button"
+            onClick={() => setMenuOpen(false)}
+            aria-label="Close menu"
+            className="rounded-sm p-1 text-muted-foreground outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
+          >
+            <X size={20} />
+          </button>
+        </div>
 
-            return (
-              <Link
-                key={item.label}
-                href={item.href}
-                className={cn(
-                  "px-3 py-4 text-lg border-b border-zinc-800 relative group transition-all duration-300",
-                  isActive ? "text-white border-cyan-400/30" : "text-white hover:text-cyan-100 hover:pl-5",
-                )}
-                onClick={() => setMobileMenuOpen(false)}
-                style={{
-                  transitionDelay: `${index * 50}ms`,
-                  transform: mobileMenuOpen ? "translateX(0)" : "translateX(20px)",
-                  opacity: mobileMenuOpen ? 1 : 0,
-                }}
-              >
-                <span className="relative z-10">{item.label}</span>
-
-                {/* Hover effect - left border accent */}
-                <span
-                  className={cn(
-                    "absolute left-0 top-1/2 -translate-y-1/2 w-0 h-1/2 bg-gradient-to-b from-cyan-400/20 to-blue-500/20 transition-all duration-300 group-hover:w-1",
-                    isActive && "w-1",
-                  )}
-                ></span>
-              </Link>
-            )
-          })}
+        <nav className="flex flex-col px-5 pt-4">
+          {navItems.map((item) => (
+            <Link
+              key={item.label}
+              href={item.href}
+              onClick={() => setMenuOpen(false)}
+              tabIndex={menuOpen ? undefined : -1}
+              className={cn(
+                "border-b border-border py-4 font-display text-2xl outline-none transition-colors duration-fast ease-smooth focus-visible:text-sand",
+                isCurrent(item.href) ? "text-sand" : "hover:text-sand"
+              )}
+            >
+              {item.label}
+            </Link>
+          ))}
         </nav>
       </div>
     </header>
-  )
+  );
 }

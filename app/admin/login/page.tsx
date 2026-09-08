@@ -36,7 +36,7 @@ export default function AdminLoginPage() {
     <main className="flex min-h-screen items-center justify-center bg-black p-4 text-white">
       <Card className="w-full max-w-sm border-zinc-800 bg-zinc-900/70">
         <CardHeader className="space-y-3">
-          <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-cyan-500 text-base font-bold text-black">
+          <span className="flex h-10 w-10 items-center justify-center rounded-sm bg-sand font-display text-xl text-primary-foreground">
             F
           </span>
           <div className="space-y-1">

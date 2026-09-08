@@ -94,7 +94,7 @@ function RowSummary({
             <Badge
               key={f.key}
               variant="outline"
-              className="shrink-0 border-cyan-500/30 bg-cyan-500/10 text-[10px] text-cyan-400"
+              className="shrink-0 border-sand/30 bg-sand/10 text-[10px] text-sand"
             >
               {f.label}
             </Badge>

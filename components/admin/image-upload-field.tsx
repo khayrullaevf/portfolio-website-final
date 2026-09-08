@@ -65,7 +65,7 @@ export function ImageUploadField({
             href={url}
             target="_blank"
             rel="noreferrer"
-            className="min-w-0 flex-1 truncate text-xs text-zinc-400 underline hover:text-cyan-400"
+            className="min-w-0 flex-1 truncate text-xs text-muted-foreground underline underline-offset-2 hover:text-sand"
           >
             {url.split("/").pop()}
           </a>
