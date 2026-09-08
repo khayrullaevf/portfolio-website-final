@@ -22,7 +22,7 @@ export default function AdminError({
       </span>
       <div className="space-y-1">
         <h2 className="text-lg font-semibold">Bo&apos;limni yuklab bo&apos;lmadi</h2>
-        <p className="max-w-sm text-sm text-zinc-400">
+        <p className="max-w-sm text-sm text-muted-foreground">
           Ma&apos;lumotlarni olishda xatolik yuz berdi. Internet aloqasini tekshirib, qayta urinib
           ko&apos;ring.
         </p>

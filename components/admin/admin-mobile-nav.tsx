@@ -8,6 +8,7 @@ import { adminSectionTitle } from "@/lib/admin/nav"
 import { SignOutButton } from "@/components/admin/sign-out-button"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
+import { CommandPaletteTrigger } from "@/components/command-palette-trigger"
 
 export function AdminMobileNav() {
   const pathname = usePathname()
@@ -20,7 +21,7 @@ export function AdminMobileNav() {
   }, [pathname])
 
   return (
-    <header className="sticky top-0 z-40 flex h-14 items-center gap-3 border-b border-zinc-800 bg-black/90 px-4 backdrop-blur md:hidden">
+    <header className="sticky top-0 z-40 flex h-14 items-center gap-3 border-b border-border bg-background/90 px-4 backdrop-blur md:hidden">
       <Sheet open={open} onOpenChange={setOpen}>
         <SheetTrigger asChild>
           <Button variant="ghost" size="icon" aria-label="Menyuni ochish">
@@ -37,13 +38,17 @@ export function AdminMobileNav() {
           <div className="flex-1 overflow-y-auto">
             <AdminNav onNavigate={() => setOpen(false)} />
           </div>
-          <div className="border-t border-zinc-800 pt-3">
+          <div className="border-t border-border pt-3">
             <SignOutButton className="w-full justify-start" />
           </div>
         </SheetContent>
       </Sheet>
 
-      <span className="truncate text-sm font-medium">{adminSectionTitle(pathname)}</span>
+      <span className="min-w-0 flex-1 truncate text-sm font-medium">
+        {adminSectionTitle(pathname)}
+      </span>
+
+      <CommandPaletteTrigger className="shrink-0" />
     </header>
   )
 }

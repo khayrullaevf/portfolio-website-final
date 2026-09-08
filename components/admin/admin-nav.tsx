@@ -21,10 +21,10 @@ export function AdminNav({ onNavigate }: { onNavigate?: () => void }) {
             onClick={onNavigate}
             aria-current={active ? "page" : undefined}
             className={cn(
-              "flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors",
+              "flex items-center gap-3 rounded-sm px-3 py-2 text-sm outline-none transition-colors duration-fast ease-smooth focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
               active
                 ? "bg-foreground/5 font-medium text-sand"
-                : "text-zinc-400 hover:bg-zinc-900 hover:text-white",
+                : "text-muted-foreground hover:bg-foreground/5 hover:text-foreground",
             )}
           >
             <Icon className="h-4 w-4 shrink-0" />

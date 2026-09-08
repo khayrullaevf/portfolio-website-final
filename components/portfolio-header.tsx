@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Menu, Search, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { OPEN_COMMAND_PALETTE } from "@/components/command-palette";
+import { CommandPaletteTrigger } from "@/components/command-palette-trigger";
 // Never import from lib/data here: that module builds a Supabase client, and a
 // value import would pull @supabase/supabase-js (~80 kB gz) into this bundle.
 import { getNavItems } from "@/lib/nav";
@@ -113,15 +114,7 @@ export function PortfolioHeader({
         </nav>
 
         <div className="flex items-center gap-1">
-          <button
-            type="button"
-            onClick={() => window.dispatchEvent(new Event(OPEN_COMMAND_PALETTE))}
-            aria-label="Open command palette"
-            className="hidden items-center gap-2 rounded-sm border border-border px-2.5 py-1.5 font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground outline-none transition-colors duration-fast ease-smooth hover:border-foreground/30 hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background md:inline-flex"
-          >
-            <Search className="h-3 w-3" aria-hidden />
-            <span aria-hidden>⌘K</span>
-          </button>
+          <CommandPaletteTrigger className="hidden md:inline-flex" />
 
           <button
             type="button"

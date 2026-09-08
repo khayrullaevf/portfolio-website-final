@@ -39,7 +39,7 @@ const SheetContent = React.forwardRef<
     <SheetPrimitive.Content
       ref={ref}
       className={cn(
-        "fixed inset-y-0 z-50 flex h-full w-[17rem] max-w-[85vw] flex-col border-zinc-800 bg-zinc-950 shadow-lg transition ease-in-out data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:duration-200 data-[state=open]:duration-300",
+        "fixed inset-y-0 z-50 flex h-full w-[17rem] max-w-[85vw] flex-col border-border bg-background shadow-lg transition ease-in-out data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:duration-200 data-[state=open]:duration-300",
         side === "left"
           ? "left-0 border-r data-[state=closed]:slide-out-to-left data-[state=open]:slide-in-from-left"
           : "right-0 border-l data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right",
@@ -48,7 +48,7 @@ const SheetContent = React.forwardRef<
       {...props}
     >
       {children}
-      <SheetPrimitive.Close className="absolute right-4 top-4 rounded-sm text-zinc-400 opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
+      <SheetPrimitive.Close className="absolute right-4 top-4 rounded-sm text-muted-foreground opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
         <X className="h-4 w-4" />
         <span className="sr-only">Yopish</span>
       </SheetPrimitive.Close>
@@ -75,7 +75,7 @@ const SheetDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <SheetPrimitive.Description
     ref={ref}
-    className={cn("text-xs text-zinc-400", className)}
+    className={cn("text-xs text-muted-foreground", className)}
     {...props}
   />
 ))

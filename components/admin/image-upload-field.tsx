@@ -53,10 +53,10 @@ export function ImageUploadField({
       <input type="hidden" name={name} value={url} />
 
       {url && (
-        <div className="flex items-center gap-3 rounded-md border border-zinc-800 bg-zinc-900/50 p-2">
-          <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded border border-zinc-800 bg-zinc-800/50">
+        <div className="flex items-center gap-3 rounded-sm border border-border bg-card p-2">
+          <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-sm border border-border bg-muted">
             {isPdf ? (
-              <FileText className="absolute inset-0 m-auto h-5 w-5 text-zinc-400" />
+              <FileText className="absolute inset-0 m-auto h-5 w-5 text-muted-foreground" />
             ) : (
               <Image src={url} alt="" fill sizes="48px" className="object-cover" />
             )}
@@ -90,12 +90,12 @@ export function ImageUploadField({
           accept="image/*,.pdf"
           onChange={handleFileChange}
           disabled={uploading}
-          className="text-base file:mr-3 file:rounded file:border-0 file:bg-zinc-800 file:px-2 file:py-1 file:text-xs file:text-zinc-300 sm:text-sm"
+          className="text-base file:mr-3 file:rounded-sm file:border-0 file:bg-muted file:px-2 file:py-1 file:text-xs file:text-foreground sm:text-sm"
         />
         {uploading ? (
-          <Loader2 className="h-4 w-4 shrink-0 animate-spin text-zinc-400" />
+          <Loader2 className="h-4 w-4 shrink-0 animate-spin text-muted-foreground" />
         ) : (
-          <Upload className="h-4 w-4 shrink-0 text-zinc-600" />
+          <Upload className="h-4 w-4 shrink-0 text-muted-foreground" />
         )}
       </div>
     </div>

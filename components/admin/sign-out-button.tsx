@@ -25,7 +25,7 @@ export function SignOutButton({ className }: { className?: string }) {
       size="sm"
       onClick={handleSignOut}
       disabled={pending}
-      className={cn("text-zinc-400 hover:text-white", className)}
+      className={cn("text-muted-foreground hover:text-foreground", className)}
     >
       {pending ? <Loader2 className="h-4 w-4 animate-spin" /> : <LogOut className="h-4 w-4" />}
       Chiqish
