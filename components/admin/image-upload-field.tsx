@@ -33,7 +33,9 @@ export function ImageUploadField({
 
     setUploading(true)
     try {
-      const result = await uploadFile(folder, file)
+      const formData = new FormData()
+      formData.append("file", file)
+      const result = await uploadFile(folder, formData)
       if (result.ok) {
         setUrl(result.url)
         toast({ title: "Yuklandi" })

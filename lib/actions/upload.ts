@@ -4,8 +4,9 @@ import { requireAdminClient } from "@/lib/actions/require-admin"
 
 export type UploadResult = { ok: true; url: string } | { ok: false; message: string }
 
-export async function uploadFile(folder: string, file: File): Promise<UploadResult> {
+export async function uploadFile(folder: string, formData: FormData): Promise<UploadResult> {
   try {
+    const file = formData.get("file") as File
     const supabase = await requireAdminClient()
 
     const ext = file.name.split(".").pop()
