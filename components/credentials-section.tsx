@@ -4,7 +4,6 @@ import { useState } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { GraduationCap, Award, Download, Loader2 } from "lucide-react"
-import { SkillTag } from "@/components/skill-tag"
 import { AnimatedSection } from "@/components/animated-section"
 import type { getCredentialsInfo } from "@/lib/data"
 
@@ -136,21 +135,6 @@ export function CredentialsSection({
                       </p>
                     </div>
                   </div>
-                ))}
-              </div>
-            </div>
-          </AnimatedSection>
-
-          {/* Skills & Expertise */}
-          <AnimatedSection animation="fade-up" delay={300}>
-            <div className="space-y-3">
-              <h4 className="text-sm font-medium text-zinc-200 flex items-center border-b border-zinc-800 pb-2">
-                <Award className="w-4 h-4 mr-2 text-cyan-400" />
-                Skills & Expertise
-              </h4>
-              <div className="flex flex-wrap gap-2">
-                {credentialsInfo.skills.map((skill, index) => (
-                  <SkillTag key={index}>{skill}</SkillTag>
                 ))}
               </div>
             </div>

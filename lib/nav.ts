@@ -9,9 +9,9 @@ export function getNavItems() {
   return [
     { label: "Home", href: "/" },
     { label: "Experience", href: "#experience" },
-    { label: "Credentials", href: "#credentials" },
-    { label: "Skills", href: "#skills" },
     { label: "Projects", href: "#projects" },
+    { label: "Skills", href: "#skills" },
+    { label: "Credentials", href: "#credentials" },
     { label: "Contact", href: "#contact" },
   ]
 }

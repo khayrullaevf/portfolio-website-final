@@ -1,6 +1,5 @@
 "use client"
 
-import { useState } from "react"
 import { Calendar, MapPin, Building } from "lucide-react"
 
 interface TimelineItem {
@@ -15,8 +14,6 @@ interface TimelineItem {
 }
 
 export function InteractiveTimeline({ items }: { items: TimelineItem[] }) {
-  const [activeItem, setActiveItem] = useState<string | undefined>(items[0]?.id)
-
   if (items.length === 0) return null
 
   return (
@@ -28,42 +25,12 @@ export function InteractiveTimeline({ items }: { items: TimelineItem[] }) {
 
         <div className="max-w-4xl mx-auto">
           <div className="relative">
-            {/* Timeline Line - faqat katta ekranlarda ko'rinadi */}
-            <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-cyan-500 to-blue-500 hidden md:block" />
-
             {/* Timeline Items */}
             <div className="space-y-8">
               {items.map((item) => (
-                <div
-                  key={item.id}
-                  className={`relative md:pl-20 cursor-pointer transition-all duration-300 ${
-                    activeItem === item.id ? "scale-105" : "hover:scale-102"
-                  }`}
-                  onClick={() => setActiveItem(item.id)}
-                >
-                  {/* Timeline Dot - faqat katta ekranlarda ko'rinadi */}
-                  <div
-                    className={`absolute left-6 w-4 h-4 rounded-full border-2 transition-all duration-300 hidden md:block ${
-                      activeItem === item.id
-                        ? "bg-cyan-500 border-cyan-400 shadow-lg shadow-cyan-500/50"
-                        : item.isActive
-                          ? "bg-blue-500 border-blue-400"
-                          : "bg-zinc-600 border-zinc-500"
-                    }`}
-                  >
-                    {activeItem === item.id && (
-                      <div className="absolute inset-0 rounded-full bg-cyan-400 animate-ping" />
-                    )}
-                  </div>
-
+                <div key={item.id} className="relative transition-transform duration-300 hover:scale-105">
                   {/* Content Card */}
-                  <div
-                    className={`bg-zinc-800/50 rounded-lg p-6 border transition-all duration-300 ${
-                      activeItem === item.id
-                        ? "border-cyan-500/50 shadow-lg shadow-cyan-500/10"
-                        : "border-zinc-700/50 hover:border-zinc-600/50"
-                    }`}
-                  >
+                  <div className="bg-zinc-800/50 rounded-lg p-6 border border-zinc-700/50 hover:border-zinc-600/50 transition-colors duration-300">
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
                       <div>
                         <h3 className="text-xl font-semibold text-white mb-1">{item.title}</h3>

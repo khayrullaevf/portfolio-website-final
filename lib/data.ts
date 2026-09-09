@@ -80,10 +80,9 @@ export async function getSkills() {
 
 export async function getCredentialsInfo() {
   const supabase = createPublicClient()
-  const [{ data: certifications }, { data: education }, { data: skills }] = await Promise.all([
+  const [{ data: certifications }, { data: education }] = await Promise.all([
     supabase.from("certifications").select("*").order("sort_order"),
     supabase.from("education").select("*").order("sort_order"),
-    supabase.from("skills").select("name").order("sort_order"),
   ])
 
   return {
@@ -100,7 +99,6 @@ export async function getCredentialsInfo() {
       year: e.year,
       logo: e.logo_url,
     })),
-    skills: (skills ?? []).map((s) => s.name),
   }
 }
 

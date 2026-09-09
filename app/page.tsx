@@ -52,15 +52,6 @@ export default async function Home() {
               <InteractiveTimeline items={experienceItems} />
             </section>
 
-            {/* Credentials Section */}
-            <section id="credentials">
-              <CredentialsSection credentialsInfo={credentialsInfo} />
-            </section>
-            {/* Skills Section */}
-            <section id="skills">
-              <SkillsProgressSection skills={skills} />
-            </section>
-
             {/* Projects Section */}
             <section id="projects">
               <Card className="bg-zinc-900/70 border-zinc-800">
@@ -93,6 +84,16 @@ export default async function Home() {
                   </div>
                 </CardContent>
               </Card>
+            </section>
+
+            {/* Skills Section */}
+            <section id="skills">
+              <SkillsProgressSection skills={skills} />
+            </section>
+
+            {/* Credentials Section */}
+            <section id="credentials">
+              <CredentialsSection credentialsInfo={credentialsInfo} />
             </section>
 
             {/* Contact Section */}
